@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>THE T-SHIRT SHOP — Design Catalogue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700&display=swap" rel="stylesheet"/>
+<!-- Supabase JS v2 -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+:root{
+  --bg:#0e1225;--navy:#232c55;--surf:#2a3464;--bdr:rgba(255,255,255,0.12);
+  --acc:#ffffff;--inv:#232c55;--danger:#e05050;
+  --dim:rgba(255,255,255,0.62);--mut:rgba(255,255,255,0.28);
+  --ff:'Syne',sans-serif;--tr:0.18s ease;--sh:0 8px 32px rgba(0,0,0,0.6);
+  --hts:64px;--hds:17px;--sts:38px;--cns:20px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--ff);background:var(--bg);color:#fff;min-height:100vh;line-height:1.6;overflow-x:hidden;}
+h1,h2,h3,h4{font-weight:700;line-height:1.05;letter-spacing:-0.01em;}
+p{font-weight:400;color:var(--dim);}
+a{color:inherit;text-decoration:none;}
+button{font-family:var(--ff);cursor:pointer;}
+img{display:block;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--bdr);}
+::-webkit-scrollbar-thumb:hover{background:var(--acc);}
+
+/* ── TOPBAR ── */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:58px;background:var(--navy);border-bottom:1px solid var(--bdr);}
+.topbar-logo{font-size:15px;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;gap:10px;letter-spacing:0.06em;text-transform:uppercase;max-width:300px;overflow:hidden;}
+.logo-mark{width:36px;height:36px;flex-shrink:0;background:var(--acc);color:var(--inv);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;}
+.logo-mark img{width:100%;height:100%;object-fit:contain;}
+.logo-img-full{max-height:38px;max-width:180px;width:auto;object-fit:contain;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 22px;font-family:var(--ff);font-size:13px;font-weight:700;border:none;outline:none;cursor:pointer;transition:all var(--tr);white-space:nowrap;line-height:1;border-radius:0;}
+.btn-primary{background:var(--acc);color:var(--inv);}.btn-primary:hover{opacity:0.85;}
+.btn-ghost{background:transparent;color:#fff;border:1px solid var(--bdr);}.btn-ghost:hover{border-color:var(--acc);}
+.btn-danger{background:transparent;color:var(--danger);border:1px solid rgba(224,80,80,0.25);}.btn-danger:hover{background:rgba(224,80,80,0.1);}
+.btn-info{background:rgba(79,127,255,0.12);color:#7aacff;border:1px solid rgba(79,127,255,0.25);}.btn-info:hover{background:rgba(79,127,255,0.22);}
+.btn-sm{padding:6px 14px;font-size:12px;}.btn-xs{padding:4px 10px;font-size:11px;}.btn-block{width:100%;justify-content:center;}
+
+/* ── LAYOUT ── */
+.main-wrap{padding-top:58px;min-height:100vh;}
+.view{display:none;}
+.view.active{display:block;animation:vIn 0.25s ease;}
+@keyframes vIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── HERO ── */
+.hero{position:relative;overflow:hidden;min-height:calc(100vh - 58px);display:flex;flex-direction:column;justify-content:center;padding:80px 64px 72px;background:var(--bg);}
+.hero.center{align-items:center;text-align:center;}
+.hero.center .hero-eyebrow::before,.hero.center .hero-eyebrow::after{display:none;}
+.hero.center .hero-desc,.hero.center .hero-cta{margin-left:auto;margin-right:auto;}
+.hero.center .hero-cta{justify-content:center;}
+.hero.center .hero-eyebrow{justify-content:center;}
+.hero-bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;}
+.hero-ov{position:absolute;inset:0;z-index:1;background:rgba(14,18,37,0.80);display:none;}
+.hero-bg.has+.hero-ov{display:block;}
+.hero-body{position:relative;z-index:2;max-width:900px;}
+.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--dim);margin-bottom:24px;display:flex;align-items:center;gap:12px;}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--dim);flex-shrink:0;}
+.hero-title{font-weight:700;color:#fff;margin-bottom:24px;line-height:1.0;letter-spacing:-0.02em;font-size:var(--hts);}
+.hero-desc{color:var(--dim);max-width:520px;line-height:1.75;font-size:var(--hds);margin-bottom:36px;}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;}
+
+/* ── STATS STRIP ── */
+.stats-strip{background:var(--navy);border-top:1px solid var(--bdr);padding:36px 64px;display:flex;align-items:center;gap:64px;flex-wrap:wrap;}
+.sv{font-size:38px;font-weight:700;color:#fff;line-height:1;}
+.sl{font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--mut);margin-top:4px;}
+
+/* ── FEATURED CAROUSEL ── */
+.feat-section{padding:72px 64px 64px;border-top:1px solid var(--bdr);}
+.feat-hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:14px;}
+.feat-sup{font-size:10.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
+.feat-title-el{font-weight:700;color:#fff;font-size:var(--sts);}
+.c-stage{position:relative;overflow:hidden;background:var(--navy);border:1px solid var(--bdr);}
+.c-track{display:flex;transition:transform 0.45s cubic-bezier(0.77,0,0.175,1);will-change:transform;}
+.c-slide{flex-shrink:0;width:100%;position:relative;overflow:hidden;cursor:pointer;}
+.c-img{width:100%;height:480px;overflow:hidden;}
+.c-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;}
+.c-slide:hover .c-img img{transform:scale(1.03);}
+.c-cap{position:absolute;bottom:0;left:0;right:0;padding:22px 32px;background:rgba(14,18,37,0.76);font-size:17px;font-weight:700;color:#fff;}
+.c-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:var(--navy);border:1px solid var(--bdr);color:#fff;font-size:22px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:0;transition:all var(--tr);padding:0;}
+.c-btn:hover{background:var(--acc);color:var(--inv);}
+.c-prev{left:0;}.c-next{right:0;}
+.c-dots{display:flex;justify-content:center;gap:6px;padding:14px 0 0;}
+.c-dot{width:6px;height:6px;background:var(--bdr);cursor:pointer;transition:all var(--tr);border:none;padding:0;border-radius:0;}
+.c-dot.on{background:var(--acc);width:22px;}
+
+/* ── COLLECTIONS ── */
+.cats-section{padding:80px 64px 100px;border-top:1px solid var(--bdr);}
+.sec-hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:16px;}
+.sec-sup{font-size:10.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
+.sec-title-el{font-weight:700;color:#fff;font-size:var(--sts);}
+.cats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:2px;}
+.cat-card{position:relative;background:var(--navy);overflow:hidden;cursor:pointer;min-height:240px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--bdr);transition:border-color var(--tr);}
+.cat-card:hover{border-color:var(--acc);}
+.cat-card:hover .c-arrow{transform:translateX(5px);}
+.cat-thumb-bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+.cat-thumb-ov{position:absolute;inset:0;background:rgba(14,18,37,0.68);}
+.cat-card:not(.ht) .cat-thumb-ov{display:none;}
+.cat-body{position:relative;z-index:2;padding:24px 26px;border-top:1px solid var(--bdr);}
+.cat-card.ht .cat-body{border-top:none;}
+.cat-card:hover .cat-body{border-top-color:var(--acc);}
+.cat-card.ht:hover .cat-body{border-top:none;}
+.cat-count{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;}
+.cat-name{font-weight:700;color:#fff;margin-bottom:12px;font-size:var(--cns);}
+.cat-footer{display:flex;align-items:center;}
+.cat-link{font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);display:inline-flex;align-items:center;gap:8px;}
+.c-arrow{transition:transform var(--tr);display:inline-block;}
+.empty-state{grid-column:1/-1;text-align:center;padding:80px 24px;border:1px solid var(--bdr);}
+.e-ico{font-size:36px;margin-bottom:16px;opacity:0.2;}
+.empty-state h3{font-size:18px;color:var(--dim);margin-bottom:8px;}
+
+/* ── CATEGORY PAGE ── */
+.cat-page{min-height:calc(100vh - 58px);}
+.cat-pg-hero{position:relative;padding:56px 64px 48px;background:var(--bg);border-bottom:1px solid var(--bdr);overflow:hidden;}
+.cpg-bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;}
+.cpg-ov{position:absolute;inset:0;z-index:1;background:rgba(14,18,37,0.80);display:none;}
+.cpg-content{position:relative;z-index:2;}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:32px;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--mut);}
+.bc-home{color:var(--acc);cursor:pointer;transition:opacity var(--tr);}.bc-home:hover{opacity:0.7;}
+.cpg-title{font-size:clamp(28px,4vw,52px);font-weight:700;margin-bottom:8px;}
+.cpg-meta{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--mut);}
+.cat-pg-body{padding:52px 64px 88px;}
+.photos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:2px;}
+.photo-card{background:var(--navy);overflow:hidden;aspect-ratio:4/3;position:relative;border:1px solid var(--bdr);transition:border-color var(--tr);cursor:zoom-in;}
+.photo-card:hover{border-color:var(--acc);}
+.photo-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease;}
+.photo-card:hover img{transform:scale(1.04);}
+.pc-label{position:absolute;bottom:0;left:0;right:0;padding:10px 14px;background:rgba(14,18,37,0.88);font-size:12.5px;font-weight:700;color:#fff;opacity:0;transition:opacity var(--tr);}
+.photo-card:hover .pc-label{opacity:1;}
+.sub-badge{position:absolute;top:8px;right:8px;background:rgba(14,18,37,0.82);border:1px solid var(--bdr);font-size:10px;font-weight:700;color:var(--dim);padding:2px 8px;letter-spacing:0.06em;}
+
+/* ── ADMIN ── */
+.admin-shell{display:flex;min-height:calc(100vh - 58px);}
+.admin-sb{width:200px;flex-shrink:0;background:var(--navy);border-right:1px solid var(--bdr);padding:24px 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto;display:flex;flex-direction:column;}
+.sb-label{padding:0 16px 8px;font-size:9.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--mut);}
+.sb-item{display:flex;align-items:center;gap:10px;padding:11px 16px;cursor:pointer;font-size:13px;font-weight:700;color:var(--dim);border-left:3px solid transparent;transition:all var(--tr);}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,0.04);}
+.sb-item.on{color:#fff;background:rgba(255,255,255,0.07);border-left-color:var(--acc);}
+.sb-ico{font-size:15px;width:18px;text-align:center;flex-shrink:0;}
+.sb-sp{flex:1;}.sb-bot{border-top:1px solid var(--bdr);padding-top:8px;margin-top:8px;}
+.admin-body{flex:1;padding:44px 52px;overflow-y:auto;}
+.a-tab{display:none;}.a-tab.on{display:block;animation:vIn 0.22s ease;}
+.a-ttl{font-size:26px;font-weight:700;margin-bottom:6px;}
+.a-dsc{color:var(--dim);font-size:14px;margin-bottom:36px;}
+
+/* ── DB STATUS BADGE ── */
+.db-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:0.08em;}
+.db-badge .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.db-ok{background:rgba(50,200,100,0.1);color:#50c878;border:1px solid rgba(50,200,100,0.25);}
+.db-ok .dot{background:#50c878;}
+.db-err{background:rgba(224,80,80,0.1);color:var(--danger);border:1px solid rgba(224,80,80,0.25);}
+.db-err .dot{background:var(--danger);}
+.db-none{background:rgba(255,200,0,0.08);color:#f0c040;border:1px solid rgba(255,200,0,0.2);}
+.db-none .dot{background:#f0c040;}
+
+/* ── PANEL ── */
+.panel{background:var(--navy);border:1px solid var(--bdr);padding:26px 28px;margin-bottom:20px;}
+.panel-head{font-size:13.5px;font-weight:700;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.panel-danger{border-color:rgba(224,80,80,0.2);}.panel-danger .panel-head{color:var(--danger);}
+.panel-info{border-color:rgba(79,127,255,0.25);}
+
+/* ── FORMS ── */
+.fg{margin-bottom:16px;}.fg:last-child{margin-bottom:0;}
+.fl{display:block;font-size:11px;font-weight:700;color:var(--dim);margin-bottom:6px;letter-spacing:0.07em;text-transform:uppercase;}
+.fi{width:100%;padding:10px 13px;background:var(--bg);border:1px solid var(--bdr);color:#fff;font-family:var(--ff);font-size:13.5px;transition:border-color var(--tr);outline:none;border-radius:0;-webkit-appearance:none;}
+.fi:focus{border-color:var(--acc);}
+.fi::placeholder{color:var(--mut);}
+.fi[type="color"]{padding:3px 7px;height:42px;cursor:pointer;}
+textarea.fi{min-height:72px;resize:vertical;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-hint{font-size:11px;color:var(--mut);margin-top:5px;line-height:1.5;}
+.drop-zone{border:1px dashed var(--bdr);padding:28px 20px;text-align:center;cursor:pointer;background:var(--bg);transition:all var(--tr);}
+.drop-zone:hover,.drop-zone.ov{border-color:var(--acc);background:rgba(255,255,255,0.02);}
+.drop-ico{font-size:24px;margin-bottom:8px;opacity:0.3;}
+.drop-txt{font-size:13.5px;font-weight:700;color:var(--dim);}
+.drop-sub{font-size:11.5px;color:var(--mut);margin-top:4px;}
+.src-tabs{display:flex;border:1px solid var(--bdr);width:fit-content;margin-bottom:14px;}
+.src-tab{padding:8px 18px;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--mut);border:none;background:transparent;font-family:var(--ff);border-radius:0;transition:all var(--tr);}
+.src-tab.on{background:var(--acc);color:var(--inv);}
+.tag-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.tag-lbl{display:flex;align-items:center;gap:7px;padding:7px 14px;cursor:pointer;background:var(--bg);border:1px solid var(--bdr);font-size:12.5px;font-weight:700;color:var(--dim);user-select:none;transition:all var(--tr);}
+.tag-lbl:hover{border-color:var(--acc);color:#fff;}.tag-lbl.on{border-color:var(--acc);color:var(--acc);background:rgba(255,255,255,0.06);}
+.tag-lbl input{display:none;}
+.tag-pip{width:5px;height:5px;background:var(--mut);flex-shrink:0;transition:background var(--tr);}
+.tag-lbl.on .tag-pip{background:var(--acc);}
+.img-pre{display:none;align-items:center;gap:12px;margin-top:10px;padding:10px 13px;background:var(--bg);border:1px solid var(--bdr);}
+.img-pre.on{display:flex;}
+.img-pre img{width:72px;height:52px;object-fit:cover;flex-shrink:0;}
+.ip-name{font-size:13px;font-weight:700;color:#fff;}
+.ip-sub{font-size:11px;color:var(--mut);margin-top:3px;}
+.mini-pre{display:none;margin-top:8px;width:100%;height:80px;object-fit:cover;border:1px solid var(--bdr);}
+.mini-pre.on{display:block;}
+.clr-btn{font-size:11px;font-weight:700;color:var(--danger);background:none;border:none;cursor:pointer;font-family:var(--ff);padding:4px 0;margin-top:4px;display:none;}
+.clr-btn.on{display:inline-block;}
+.range-row{display:flex;align-items:center;gap:14px;}
+.rv{width:54px;flex-shrink:0;background:var(--bg);border:1px solid var(--bdr);color:#fff;font-family:var(--ff);font-size:12.5px;font-weight:700;padding:6px 8px;text-align:center;border-radius:0;}
+input[type="range"]{flex:1;-webkit-appearance:none;height:3px;background:var(--bdr);outline:none;cursor:pointer;accent-color:var(--acc);}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;background:var(--acc);cursor:pointer;border:none;}
+.color-row{display:flex;align-items:center;gap:10px;}
+.cswatch{width:42px;height:42px;border:1px solid var(--bdr);overflow:hidden;flex-shrink:0;cursor:pointer;}
+.cswatch input[type="color"]{width:100%;height:100%;border:none;padding:0;cursor:pointer;}
+/* ── CODE BLOCK ── */
+.code-block{background:rgba(0,0,0,0.4);border:1px solid var(--bdr);padding:14px 16px;font-family:'Courier New',monospace;font-size:12px;color:#9de0c8;line-height:1.7;overflow-x:auto;margin:10px 0;white-space:pre;}
+.copy-sql-btn{font-size:11px;font-weight:700;color:var(--acc);background:none;border:1px solid var(--bdr);cursor:pointer;font-family:var(--ff);padding:5px 12px;margin-bottom:8px;transition:all var(--tr);border-radius:0;}
+.copy-sql-btn:hover{background:rgba(255,255,255,0.06);}
+
+/* ── CAT ADMIN LIST ── */
+.cat-a-list{display:flex;flex-direction:column;gap:2px;}
+.cat-a-item{background:var(--bg);border:1px solid var(--bdr);transition:border-color var(--tr);}
+.cat-a-item:hover{border-color:rgba(255,255,255,0.22);}
+.cat-a-row{display:flex;align-items:center;gap:12px;padding:14px 16px;}
+.cat-a-thumb{width:52px;height:38px;flex-shrink:0;background:var(--navy);border:1px solid var(--bdr);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--mut);}
+.cat-a-thumb img{width:100%;height:100%;object-fit:cover;}
+.cat-a-name{flex:1;font-size:14px;font-weight:700;color:#fff;min-width:0;}
+.cat-a-pill{font-size:10.5px;font-weight:700;padding:3px 10px;background:var(--surf);color:var(--mut);white-space:nowrap;flex-shrink:0;}
+.cat-a-acts{display:flex;gap:6px;flex-shrink:0;}
+.rename-inline{background:transparent;border:none;border-bottom:2px solid var(--acc);color:#fff;font-family:var(--ff);font-size:14px;font-weight:700;padding:2px 0;outline:none;width:100%;border-radius:0;}
+
+/* ── TABLE ── */
+.dt{width:100%;border-collapse:collapse;font-size:13px;}
+.dt th{text-align:left;padding:10px 13px;font-size:9.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--mut);border-bottom:1px solid var(--bdr);}
+.dt td{padding:11px 13px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--dim);vertical-align:middle;}
+.dt tr:last-child td{border-bottom:none;}
+.dt tr:hover td{background:rgba(255,255,255,0.02);}
+.dt-thumb{width:48px;height:36px;object-fit:cover;}
+.dt-no-thumb{width:48px;height:36px;background:var(--surf);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:16px;}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;font-size:10.5px;font-weight:700;}
+.badge-o{border:1px solid rgba(255,255,255,0.18);color:var(--dim);background:transparent;margin-right:4px;}
+
+/* ── FEATURED LIST ── */
+.feat-list{display:flex;flex-direction:column;gap:2px;}
+.feat-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg);border:1px solid var(--bdr);}
+.feat-thumb{width:64px;height:44px;object-fit:cover;flex-shrink:0;border:1px solid var(--bdr);}
+.feat-no-thumb{width:64px;height:44px;flex-shrink:0;background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--mut);}
+.feat-name{flex:1;font-size:13.5px;font-weight:700;color:#fff;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.feat-reorder{display:flex;flex-direction:column;gap:3px;flex-shrink:0;}
+.feat-reorder button{background:none;border:1px solid var(--bdr);color:var(--dim);width:24px;height:20px;font-size:10px;display:flex;align-items:center;justify-content:center;padding:0;transition:all var(--tr);}
+.feat-reorder button:hover{border-color:var(--acc);color:#fff;}
+
+/* ── SUB PHOTO GRID ── */
+.sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;margin-bottom:16px;}
+.sub-item{position:relative;aspect-ratio:1;border:1px solid var(--bdr);overflow:hidden;}
+.sub-item img{width:100%;height:100%;object-fit:cover;}
+.sub-del{position:absolute;top:4px;right:4px;background:rgba(14,18,37,0.88);border:1px solid var(--danger);color:var(--danger);font-size:11px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;border-radius:0;}
+
+/* ── LIGHTBOX ── */
+.lb{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.96);flex-direction:column;align-items:center;justify-content:center;}
+.lb.on{display:flex;}
+.lb-wrap{position:relative;display:flex;align-items:center;max-width:92vw;width:100%;justify-content:center;}
+.lb-img-box{max-width:88vw;max-height:80vh;display:flex;align-items:center;justify-content:center;}
+.lb-img-box img{max-width:100%;max-height:80vh;object-fit:contain;}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:var(--navy);border:1px solid var(--bdr);color:#fff;font-size:20px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:0;transition:all var(--tr);}
+.lb-nav:hover{background:var(--acc);color:var(--inv);}
+.lp{left:0;}.ln{right:0;}
+.lb-nav.hid{visibility:hidden;pointer-events:none;}
+.lb-close{position:absolute;top:16px;right:20px;font-size:22px;color:rgba(255,255,255,0.5);cursor:pointer;background:none;border:none;font-family:var(--ff);transition:color var(--tr);line-height:1;}
+.lb-close:hover{color:#fff;}
+.lb-ctr{position:absolute;top:16px;left:20px;font-size:12px;font-weight:700;color:var(--dim);background:rgba(0,0,0,0.6);padding:4px 12px;}
+.lb-strip{display:none;gap:6px;padding:14px 0 0;max-width:88vw;overflow-x:auto;justify-content:center;flex-wrap:wrap;}
+.lb-strip.on{display:flex;}
+.lb-si{width:56px;height:42px;cursor:pointer;overflow:hidden;border:2px solid transparent;flex-shrink:0;transition:all var(--tr);}
+.lb-si img{width:100%;height:100%;object-fit:cover;}
+.lb-si.on{border-color:var(--acc);}
+.lb-cap{font-size:12.5px;font-weight:700;color:rgba(255,255,255,0.45);background:rgba(0,0,0,0.55);padding:5px 16px;white-space:nowrap;max-width:80vw;overflow:hidden;text-overflow:ellipsis;margin-top:10px;}
+
+/* ── MODALS ── */
+.mask{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.82);align-items:center;justify-content:center;}
+.mask.on{display:flex;}
+.mbox{background:var(--navy);border:1px solid var(--bdr);padding:36px;width:90%;max-width:500px;animation:vIn 0.2s ease;max-height:90vh;overflow-y:auto;}
+.mbox.wide{max-width:640px;}
+.mbox.xl{max-width:800px;}
+.m-title{font-size:19px;font-weight:700;margin-bottom:24px;}
+.m-foot{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;}
+.pw-box{background:var(--navy);border:1px solid var(--bdr);padding:44px;width:90%;max-width:400px;animation:vIn 0.2s ease;text-align:center;}
+.pw-ico{font-size:32px;margin-bottom:20px;opacity:0.6;}
+.pw-ttl{font-size:20px;font-weight:700;margin-bottom:6px;}
+.pw-sub{font-size:13px;color:var(--dim);margin-bottom:28px;}
+.pw-err{color:var(--danger);font-size:12px;font-weight:700;margin-top:10px;min-height:16px;}
+@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}
+
+/* ── LOADING ── */
+.loading-overlay{display:none;position:fixed;inset:0;z-index:9000;background:rgba(14,18,37,0.75);align-items:center;justify-content:center;flex-direction:column;gap:16px;}
+.loading-overlay.on{display:flex;}
+.spinner{width:38px;height:38px;border:3px solid var(--bdr);border-top-color:var(--acc);border-radius:50%;animation:spin 0.75s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-txt{font-size:13px;font-weight:700;color:var(--dim);}
+
+/* ── PROGRESS BAR ── */
+.prog-wrap{background:var(--bg);border:1px solid var(--bdr);height:6px;margin-top:12px;overflow:hidden;}
+.prog-bar{height:100%;background:var(--acc);transition:width 0.3s ease;width:0%;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--navy);border-left:3px solid var(--acc);padding:13px 20px;font-size:13px;font-weight:700;color:#fff;box-shadow:var(--sh);pointer-events:none;transform:translateY(80px);opacity:0;transition:all 0.28s cubic-bezier(0.34,1.5,0.64,1);}
+.toast.on{transform:translateY(0);opacity:1;}
+.toast.err{border-left-color:var(--danger);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .hero,.cats-section,.feat-section,.cat-pg-hero,.cat-pg-body,.stats-strip{padding-left:28px;padding-right:28px;}
+  .admin-shell{flex-direction:column;}
+  .admin-sb{width:100%;height:auto;position:static;flex-direction:row;padding:6px 4px;border-right:none;border-bottom:1px solid var(--bdr);overflow-x:auto;}
+  .sb-label,.sb-sp,.sb-bot{display:none;}
+  .sb-item{border-left:none;border-bottom:3px solid transparent;flex-shrink:0;padding:10px 16px;font-size:12.5px;}
+  .sb-item.on{border-left:none;border-bottom-color:var(--acc);background:transparent;}
+  .admin-body{padding:24px 20px;}
+  .form-row{grid-template-columns:1fr;}
+  .c-img{height:320px;}
+}
+@media(max-width:640px){
+  .topbar{padding:0 18px;}
+  .topbar-logo span{font-size:12px;}
+  .topbar-actions .btn-ghost{display:none;}
+  .cats-grid{grid-template-columns:1fr;gap:2px;}
+  .photos-grid{grid-template-columns:repeat(2,1fr);}
+  .hero{padding:52px 24px 44px;}
+  .c-img{height:220px;}
+}
+@media(max-width:420px){.photos-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="topbar-logo" onclick="navigate('home')">
+    <div class="logo-mark" id="logo-mark"><span id="logo-letter">T</span></div>
+    <span id="topbar-name">THE T-SHIRT SHOP</span>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn btn-ghost" onclick="navigate('home')">Design Catalogue</button>
+    <button class="btn btn-primary" onclick="reqDash()">&#8862; Dashboard</button>
+  </div>
+</nav>
+
+<div class="main-wrap">
+
+<!-- ════════════════  HOME  ════════════════ -->
+<div id="v-home" class="view">
+  <section class="hero" id="hero-sec">
+    <div class="hero-bg" id="hero-bg"></div>
+    <div class="hero-ov" id="hero-ov"></div>
+    <div class="hero-body">
+      <div class="hero-eyebrow">Official Design Catalogue</div>
+      <h1 class="hero-title" id="hero-title">THE T-SHIRT SHOP<br>DESIGN CATALOGUE</h1>
+      <p class="hero-desc" id="hero-desc">Browse our complete collection of original T-shirt designs, organised by category for easy selection.</p>
+      <div class="hero-cta"><button class="btn btn-primary" id="jump-btn" onclick="scrollToCats()">Browse Collections</button></div>
+    </div>
+  </section>
+  <section class="feat-section" id="feat-section" style="display:none">
+    <div class="feat-hdr">
+      <div><div class="feat-sup">Featured</div><h2 class="feat-title-el" id="feat-title-el">Featured Designs</h2></div>
+    </div>
+    <div class="c-stage">
+      <div class="c-track" id="c-track"></div>
+      <button class="c-btn c-prev" id="c-prev" onclick="cStep(-1)">&#8249;</button>
+      <button class="c-btn c-next" id="c-next" onclick="cStep(1)">&#8250;</button>
+    </div>
+    <div class="c-dots" id="c-dots"></div>
+  </section>
+  <section class="cats-section" id="cats-anchor">
+    <div class="sec-hdr">
+      <div><div class="sec-sup">Collections</div><h2 class="sec-title-el" id="sec-title-el">Browse by Category</h2></div>
+    </div>
+    <div class="cats-grid" id="home-grid"></div>
+  </section>
+  <div class="stats-strip">
+    <div><div class="sv" id="s-cats">0</div><div class="sl">Collections</div></div>
+    <div><div class="sv" id="s-photos">0</div><div class="sl">Designs</div></div>
+  </div>
+</div>
+
+<!-- ════════════════  CATEGORY PAGE  ════════════════ -->
+<div id="v-cat" class="view">
+  <div class="cat-page">
+    <div class="cat-pg-hero">
+      <div class="cpg-bg" id="cpg-bg"></div>
+      <div class="cpg-ov" id="cpg-ov"></div>
+      <div class="cpg-content">
+        <div class="breadcrumb"><span class="bc-home" onclick="navigate('home')">&#8592; Home</span><span style="color:var(--bdr)">/</span><span id="cat-bc" style="color:var(--dim)"></span></div>
+        <h1 class="cpg-title" id="cpg-title"></h1>
+        <div class="cpg-meta" id="cpg-meta"></div>
+      </div>
+    </div>
+    <div class="cat-pg-body"><div class="photos-grid" id="cat-grid"></div></div>
+  </div>
+</div>
+
+<!-- ════════════════  ADMIN  ════════════════ -->
+<div id="v-admin" class="view">
+  <div class="admin-shell">
+    <aside class="admin-sb">
+      <div class="sb-label">Dashboard</div>
+      <div class="sb-item on"  data-tab="cats"     onclick="switchTab('cats')">     <span class="sb-ico">&#8862;</span> Categories</div>
+      <div class="sb-item"     data-tab="photos"   onclick="switchTab('photos')">   <span class="sb-ico">&#9647;</span> Photos</div>
+      <div class="sb-item"     data-tab="featured" onclick="switchTab('featured')"> <span class="sb-ico">&#9733;</span> Featured</div>
+      <div class="sb-item"     data-tab="settings" onclick="switchTab('settings')"> <span class="sb-ico">&#9678;</span> Settings</div>
+      <div class="sb-sp"></div>
+      <div class="sb-bot">
+        <div class="sb-item" onclick="lockDash()">       <span class="sb-ico">&#8854;</span> Lock</div>
+        <div class="sb-item" onclick="navigate('home')"> <span class="sb-ico">&#8617;</span> View Site</div>
+      </div>
+    </aside>
+
+    <div class="admin-body">
+
+      <!-- ── CATEGORIES ── -->
+      <div id="tab-cats" class="a-tab on">
+        <div class="a-ttl">Category Management</div>
+        <div class="a-dsc">Create, rename and delete collections, and manage their images.</div>
+        <div class="panel">
+          <div class="panel-head">Create New Category</div>
+          <div class="form-row" style="align-items:flex-end">
+            <div class="fg" style="margin-bottom:0"><label class="fl">Category Name</label><input type="text" id="new-cat-inp" class="fi" placeholder="e.g., Vintage Prints" onkeydown="if(event.key==='Enter')createCat()" /></div>
+            <button class="btn btn-primary btn-block" onclick="createCat()">Create Category</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">Existing Categories <span class="badge badge-o" id="cat-count-badge">0</span></div>
+          <div class="cat-a-list" id="cat-admin-list"></div>
+        </div>
+      </div>
+
+      <!-- ── PHOTOS ── -->
+      <div id="tab-photos" class="a-tab">
+        <div class="a-ttl">Photo Management</div>
+        <div class="a-dsc">Add designs. Select multiple files at once. Each design can have sub-photos for multiple angles/views.</div>
+        <div class="panel">
+          <div class="panel-head">Add New Design(s)</div>
+          <div class="src-tabs"><button class="src-tab on" onclick="switchSrc('url',this)">Image URL</button><button class="src-tab" onclick="switchSrc('file',this)">File Upload</button></div>
+          <div id="src-url-w"><div class="fg"><label class="fl">Image URL</label><input type="url" id="ph-url" class="fi" placeholder="https://example.com/design.jpg" oninput="urlPrev()" /></div></div>
+          <div id="src-file-w" style="display:none">
+            <div class="fg"><label class="fl">Upload Image(s)</label>
+              <div class="drop-zone" id="ph-drop" onclick="document.getElementById('ph-file-inp').click()" ondragover="doDO(event,'ph-drop')" ondragleave="doDL('ph-drop')" ondrop="doDropMulti(event)">
+                <div class="drop-ico">&#11014;</div><div class="drop-txt">Click to select or drag & drop</div><div class="drop-sub">PNG, JPG, WebP — multiple files allowed, max 10 MB each</div>
+              </div>
+              <input type="file" id="ph-file-inp" accept="image/*" multiple style="display:none" onchange="filesSelected(event)" />
+            </div>
+          </div>
+          <div class="img-pre" id="ph-pre"><img id="ph-pre-img" src="" alt="" /><div><div class="ip-name">Preview</div><div class="ip-sub" id="ph-pre-sub">—</div></div></div>
+          <div id="ph-batch-info" style="display:none;margin-top:10px;padding:10px 13px;background:var(--bg);border:1px solid var(--bdr)">
+            <div id="ph-batch-txt" style="font-size:13px;font-weight:700;color:#fff"></div>
+            <div class="prog-wrap"><div class="prog-bar" id="ph-prog"></div></div>
+          </div>
+          <div class="fg" style="margin-top:16px"><label class="fl">Title <span style="font-weight:400;text-transform:none;font-size:10px;color:var(--mut)">(URL mode: full title | File mode: optional prefix)</span></label><input type="text" id="ph-title" class="fi" placeholder="e.g., Classic Skull Print" /></div>
+          <div class="fg"><label class="fl">Assign to Categories</label><div class="tag-grid" id="ph-cat-tags"><span style="color:var(--mut);font-size:13px">No categories yet.</span></div></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary" id="add-ph-btn" onclick="addPhoto()">Add Design</button>
+            <button class="btn btn-ghost" id="add-batch-btn" onclick="addBatch()" style="display:none">Add All Files</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">All Designs <span class="badge badge-o" id="photo-count-badge">0</span></div>
+          <div style="overflow-x:auto"><table class="dt"><thead><tr><th>Preview</th><th>Title</th><th>Sub-photos</th><th>Categories</th><th>Action</th></tr></thead><tbody id="photos-tbody"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ── FEATURED ── -->
+      <div id="tab-featured" class="a-tab">
+        <div class="a-ttl">Featured Carousel</div>
+        <div class="a-dsc">Manage the promotional carousel shown above the category grid.</div>
+        <div class="panel">
+          <div class="panel-head">Add Featured Photo</div>
+          <div class="src-tabs"><button class="src-tab on" onclick="switchSrc('url',this,'feat')">Image URL</button><button class="src-tab" onclick="switchSrc('file',this,'feat')">File Upload</button></div>
+          <div id="feat-url-w"><div class="fg"><label class="fl">Image URL</label><input type="url" id="feat-url" class="fi" placeholder="https://example.com/promo.jpg" oninput="featUrlPrev()" /></div></div>
+          <div id="feat-file-w" style="display:none">
+            <div class="fg"><label class="fl">Upload Image</label>
+              <div class="drop-zone" id="feat-drop" onclick="document.getElementById('feat-file-inp').click()" ondragover="doDO(event,'feat-drop')" ondragleave="doDL('feat-drop')" ondrop="doDrop(event,'feat-file-inp','feat')">
+                <div class="drop-ico">&#11014;</div><div class="drop-txt">Drop promo image here</div>
+              </div>
+              <input type="file" id="feat-file-inp" accept="image/*" style="display:none" onchange="fileSel(event,'feat')" />
+            </div>
+          </div>
+          <div class="img-pre" id="feat-pre"><img id="feat-pre-img" src="" alt="" /><div><div class="ip-name">Preview</div><div class="ip-sub" id="feat-pre-sub">—</div></div></div>
+          <div class="fg" style="margin-top:16px"><label class="fl">Caption / Label (optional)</label><input type="text" id="feat-cap" class="fi" placeholder="e.g., Christmas Collection 2025" /></div>
+          <button class="btn btn-primary" onclick="addFeatured()">Add to Carousel</button>
+        </div>
+        <div class="panel">
+          <div class="panel-head">Current Featured Photos <span class="badge badge-o" id="feat-count-badge">0</span></div>
+          <div class="feat-list" id="feat-list"></div>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS ── -->
+      <div id="tab-settings" class="a-tab">
+        <div class="a-ttl">Global Settings</div>
+        <div class="a-dsc">Configure logo, colors, backgrounds, typography and security. All changes sync across all devices instantly.</div>
+
+        <!-- DB Status -->
+        <div class="panel panel-info">
+          <div class="panel-head">&#9679; Database Connection</div>
+          <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <span id="db-status-badge" class="db-badge db-none"><span class="dot"></span> Not configured</span>
+            <button class="btn btn-info btn-sm" onclick="openModal('modal-setup')">&#9881; Configure Supabase</button>
+            <button class="btn btn-ghost btn-sm" onclick="testConnection()">Test Connection</button>
+          </div>
+          <div id="db-url-display" style="font-size:11px;color:var(--mut);margin-top:10px"></div>
+        </div>
+
+        <!-- Logo -->
+        <div class="panel">
+          <div class="panel-head">Shop Logo</div>
+          <div class="src-tabs"><button class="src-tab on" onclick="switchSrc('url',this,'logo')">Image URL</button><button class="src-tab" onclick="switchSrc('file',this,'logo')">File Upload</button></div>
+          <div id="logo-url-w"><div class="fg"><label class="fl">Logo URL</label><input type="url" id="s-logo-url" class="fi" placeholder="https://example.com/logo.png" oninput="logoUrlPrev()" /></div></div>
+          <div id="logo-file-w" style="display:none">
+            <div class="fg"><label class="fl">Upload Logo</label>
+              <div class="drop-zone" id="logo-drop" onclick="document.getElementById('logo-file-inp').click()" ondragover="doDO(event,'logo-drop')" ondragleave="doDL('logo-drop')" ondrop="doDrop(event,'logo-file-inp','logo')">
+                <div class="drop-ico">&#11014;</div><div class="drop-txt">Drop your logo here</div><div class="drop-sub">Transparent PNG recommended</div>
+              </div>
+              <input type="file" id="logo-file-inp" accept="image/*" style="display:none" onchange="fileSel(event,'logo')" />
+            </div>
+          </div>
+          <img id="logo-pre" class="mini-pre" src="" alt="" />
+          <button class="clr-btn" id="logo-clear" onclick="clearLogo()">&#10005; Remove Logo</button>
+        </div>
+
+        <!-- Hero BG -->
+        <div class="panel">
+          <div class="panel-head">Hero Background Image</div>
+          <div class="src-tabs"><button class="src-tab on" onclick="switchSrc('url',this,'hero-bg')">Image URL</button><button class="src-tab" onclick="switchSrc('file',this,'hero-bg')">File Upload</button></div>
+          <div id="hero-bg-url-w"><div class="fg"><label class="fl">Image URL</label><input type="url" id="s-hero-bg-url" class="fi" placeholder="https://example.com/bg.jpg" oninput="heroBgUrlPrev()" /></div></div>
+          <div id="hero-bg-file-w" style="display:none">
+            <div class="fg"><label class="fl">Upload Image</label>
+              <div class="drop-zone" id="hero-bg-drop" onclick="document.getElementById('hero-bg-file-inp').click()" ondragover="doDO(event,'hero-bg-drop')" ondragleave="doDL('hero-bg-drop')" ondrop="doDrop(event,'hero-bg-file-inp','hero-bg')">
+                <div class="drop-ico">&#11014;</div><div class="drop-txt">Drop hero background here</div><div class="drop-sub">Recommended: 1920&#215;1080</div>
+              </div>
+              <input type="file" id="hero-bg-file-inp" accept="image/*" style="display:none" onchange="fileSel(event,'hero-bg')" />
+            </div>
+          </div>
+          <img id="hero-bg-pre" class="mini-pre" src="" alt="" />
+          <button class="clr-btn" id="hero-bg-clear" onclick="clearHeroBg()">&#10005; Remove Background</button>
+        </div>
+
+        <!-- Colors -->
+        <div class="panel">
+          <div class="panel-head">Colors</div>
+          <div class="form-row">
+            <div class="fg"><label class="fl">Accent Color</label><div class="color-row"><div class="cswatch"><input type="color" id="s-accent" value="#ffffff" oninput="liveAccent()" /></div><input type="text" id="s-accent-txt" class="fi" value="#ffffff" oninput="syncClr('s-accent',this.value)" /></div></div>
+            <div class="fg"><label class="fl">Page Background</label><div class="color-row"><div class="cswatch"><input type="color" id="s-bg-col" value="#0e1225" oninput="liveBg()" /></div><input type="text" id="s-bg-txt" class="fi" value="#0e1225" oninput="syncClr('s-bg-col',this.value)" /></div></div>
+          </div>
+        </div>
+
+        <!-- Typography -->
+        <div class="panel">
+          <div class="panel-head">Typography</div>
+          <div class="fg"><label class="fl">Font Style</label><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-primary btn-sm" id="fbtn-sans" onclick="setFont('sans')">Syne (Default)</button><button class="btn btn-ghost btn-sm" id="fbtn-serif" onclick="setFont('serif')">Serif</button><button class="btn btn-ghost btn-sm" id="fbtn-mono" onclick="setFont('mono')">Monospace</button></div></div>
+          <div class="fg" style="margin-top:18px"><label class="fl">Hero Title Size</label><div class="range-row"><input type="range" id="r-hts" min="24" max="120" value="64" oninput="syncR('hts','--hts')" /><input type="text" class="rv" id="rv-hts" value="64px" readonly /></div></div>
+          <div class="fg"><label class="fl">Hero Description Size</label><div class="range-row"><input type="range" id="r-hds" min="12" max="30" value="17" oninput="syncR('hds','--hds')" /><input type="text" class="rv" id="rv-hds" value="17px" readonly /></div></div>
+          <div class="fg"><label class="fl">Section Title Size</label><div class="range-row"><input type="range" id="r-sts" min="18" max="72" value="38" oninput="syncR('sts','--sts')" /><input type="text" class="rv" id="rv-sts" value="38px" readonly /></div></div>
+          <div class="fg"><label class="fl">Card Name Size</label><div class="range-row"><input type="range" id="r-cns" min="12" max="40" value="20" oninput="syncR('cns','--cns')" /><input type="text" class="rv" id="rv-cns" value="20px" readonly /></div></div>
+        </div>
+
+        <!-- Layout -->
+        <div class="panel">
+          <div class="panel-head">Layout &amp; Content</div>
+          <div class="fg"><label class="fl">Hero Alignment</label><div style="display:flex;gap:8px"><button class="btn btn-primary btn-sm" id="al-left-btn" onclick="setAlign('left')">Left</button><button class="btn btn-ghost btn-sm" id="al-center-btn" onclick="setAlign('center')">Center</button></div></div>
+          <div class="fg" style="margin-top:18px"><label class="fl">Jump to Categories Button</label><div style="display:flex;gap:8px"><button class="btn btn-primary btn-sm" id="jb-show-btn" onclick="setJump(true)">Show</button><button class="btn btn-ghost btn-sm" id="jb-hide-btn" onclick="setJump(false)">Hide</button></div></div>
+          <div class="fg"><label class="fl">Jump Button Text</label><input type="text" id="s-jump-txt" class="fi" placeholder="Browse Collections" /></div>
+          <div class="fg" style="margin-top:18px"><label class="fl">Site Name</label><input type="text" id="s-site-name" class="fi" /></div>
+          <div class="fg"><label class="fl">Hero Title</label><textarea id="s-hero-title" class="fi"></textarea></div>
+          <div class="fg"><label class="fl">Hero Description</label><textarea id="s-hero-desc" class="fi"></textarea></div>
+          <div class="fg" style="margin-top:18px"><label class="fl">Featured Section Title</label><input type="text" id="s-feat-title" class="fi" /></div>
+          <button class="btn btn-primary" onclick="saveSettings()">Save All Settings</button>
+        </div>
+
+        <!-- Password -->
+        <div class="panel">
+          <div class="panel-head">Dashboard Password</div>
+          <div class="fg"><label class="fl">Current Password</label><input type="password" id="s-cur-pw" class="fi" placeholder="Current password" /></div>
+          <div class="form-row"><div class="fg"><label class="fl">New Password</label><input type="password" id="s-new-pw" class="fi" placeholder="New password" /></div><div class="fg"><label class="fl">Confirm</label><input type="password" id="s-conf-pw" class="fi" placeholder="Repeat" /></div></div>
+          <button class="btn btn-ghost" onclick="changePw()">Update Password</button>
+        </div>
+
+        <!-- Danger -->
+        <div class="panel panel-danger">
+          <div class="panel-head">Danger Zone</div>
+          <p style="font-size:13px;margin-bottom:18px">Permanently delete ALL data from the database. Cannot be undone.</p>
+          <button class="btn btn-danger" onclick="nukeAll()">Clear All Data &amp; Reset</button>
+        </div>
+      </div><!-- /tab-settings -->
+
+    </div><!-- /admin-body -->
+  </div>
+</div><!-- /v-admin -->
+
+</div><!-- /main-wrap -->
+
+<!-- ════  PASSWORD MODAL  ════ -->
+<div class="mask" id="modal-pw">
+  <div class="pw-box">
+    <div class="pw-ico">&#128274;</div>
+    <div class="pw-ttl">Dashboard Access</div>
+    <div class="pw-sub">Enter the admin password to continue.</div>
+    <input type="password" id="pw-input" class="fi" placeholder="Password" onkeydown="if(event.key==='Enter')submitPw()" style="text-align:center;font-size:18px;letter-spacing:0.15em" />
+    <div class="pw-err" id="pw-err"></div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:22px">
+      <button class="btn btn-ghost" onclick="closeModal('modal-pw')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitPw()">Enter</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════  SUPABASE SETUP MODAL  ════ -->
+<div class="mask" id="modal-setup">
+  <div class="mbox xl">
+    <div class="m-title">&#9881; Supabase Database Setup</div>
+    <p style="margin-bottom:22px;font-size:14px;line-height:1.8">Connect this catalogue to a free Supabase database so all data (photos, categories, settings) syncs across every device. <strong style="color:#fff">Follow these 5 steps:</strong></p>
+
+    <div class="panel" style="margin-bottom:16px">
+      <div class="panel-head" style="margin-bottom:14px">Step 1 — Create a free Supabase project</div>
+      <p style="font-size:13.5px;margin-bottom:10px">Go to <strong style="color:var(--acc)">supabase.com</strong>, sign up for free, and create a new project. Choose a region close to you. Wait ~2 minutes for it to be ready.</p>
+    </div>
+
+    <div class="panel" style="margin-bottom:16px">
+      <div class="panel-head" style="margin-bottom:14px">Step 2 — Run this SQL in the SQL Editor</div>
+      <p style="font-size:13px;margin-bottom:10px">In your Supabase project go to <strong style="color:#fff">SQL Editor</strong> and run the following:</p>
+      <button class="copy-sql-btn" onclick="copySQL()">&#128203; Copy SQL</button>
+      <div class="code-block" id="setup-sql">-- THE T-SHIRT SHOP CATALOGUE — Database Schema
+
+create table if not exists categories (
+  id text primary key, name text not null,
+  thumbnail text default '', bg_image text default '',
+  sort_order int default 0, created_at timestamptz default now()
+);
+
+create table if not exists photos (
+  id text primary key, title text not null, src text default '',
+  sub_photos jsonb default '[]'::jsonb,
+  categories text[] default '{}'::text[],
+  created_at timestamptz default now()
+);
+
+create table if not exists featured (
+  id text primary key, src text default '', caption text default '',
+  sort_order int default 0, created_at timestamptz default now()
+);
+
+create table if not exists settings (
+  key text primary key, value jsonb
+);
+
+alter table categories enable row level security;
+alter table photos     enable row level security;
+alter table featured   enable row level security;
+alter table settings   enable row level security;
+
+create policy "public_all" on categories for all to anon using (true) with check (true);
+create policy "public_all" on photos     for all to anon using (true) with check (true);
+create policy "public_all" on featured   for all to anon using (true) with check (true);
+create policy "public_all" on settings   for all to anon using (true) with check (true);
+
+-- Storage bucket + policies (all in one)
+insert into storage.buckets (id, name, public)
+  values ('catalogue', 'catalogue', true) on conflict (id) do nothing;
+
+create policy "storage_select" on storage.objects
+  for select to anon using (bucket_id = 'catalogue');
+create policy "storage_insert" on storage.objects
+  for insert to anon with check (bucket_id = 'catalogue');
+create policy "storage_delete" on storage.objects
+  for delete to anon using (bucket_id = 'catalogue');</div>
+    </div>
+
+    <div class="panel" style="margin-bottom:16px">
+      <div class="panel-head" style="margin-bottom:14px">Step 3 — Get your API credentials</div>
+      <p style="font-size:13px;margin-bottom:8px">In your Supabase project go to <strong style="color:#fff">Project Settings &#8594; API</strong>. Copy the <strong style="color:var(--acc)">Project URL</strong> and the <strong style="color:var(--acc)">anon / public key</strong>.</p>
+    </div>
+
+    <div class="panel" style="margin-bottom:16px">
+      <div class="panel-head" style="margin-bottom:14px">Step 4 — Enter your credentials</div>
+      <div class="fg"><label class="fl">Supabase Project URL</label><input type="url" id="setup-url" class="fi" placeholder="https://xxxxxxxxxxx.supabase.co" /></div>
+      <div class="fg"><label class="fl">Supabase Anon / Public Key</label><input type="text" id="setup-key" class="fi" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." /></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:0">
+      <div class="panel-head" style="margin-bottom:14px">Step 5 — Save &amp; host the HTML file</div>
+      <p style="font-size:13px;line-height:1.8">After saving your credentials below, you can host this HTML file anywhere (Netlify, GitHub Pages, any web host, or just open it from your computer). <strong style="color:#fff">Every device that opens the file with these credentials will share the same data.</strong></p>
+    </div>
+
+    <div class="m-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-setup')">Cancel</button>
+      <button class="btn btn-info btn-sm" onclick="testConnection()">Test Connection</button>
+      <button class="btn btn-primary" onclick="saveConfig()">Save &amp; Connect</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════  CAT IMAGES MODAL  ════ -->
+<div class="mask" id="modal-cat-img">
+  <div class="mbox wide">
+    <div class="m-title" id="cat-img-title">Category Images</div>
+    <input type="hidden" id="cat-img-id" />
+    <div style="margin-bottom:24px">
+      <div class="fl" style="margin-bottom:10px">Homepage Thumbnail</div>
+      <div class="src-tabs"><button class="src-tab on" onclick="switchCatSrc('thumb','url',this)">URL</button><button class="src-tab" onclick="switchCatSrc('thumb','file',this)">Upload</button></div>
+      <div id="cthumb-url-w"><input type="url" id="cat-thumb-url" class="fi" placeholder="https://..." oninput="catImgUrlPrev('thumb','cat-thumb-url','cat-thumb-pre','cat-thumb-clear')" /></div>
+      <div id="cthumb-file-w" style="display:none">
+        <div class="drop-zone" id="cat-thumb-dz" onclick="document.getElementById('cat-thumb-file').click()" ondragover="doDO(event,'cat-thumb-dz')" ondragleave="doDL('cat-thumb-dz')" ondrop="doDrop(event,'cat-thumb-file','cat-thumb')">
+          <div class="drop-ico">&#11014;</div><div class="drop-txt">Drop thumbnail</div>
+        </div>
+        <input type="file" id="cat-thumb-file" accept="image/*" style="display:none" onchange="fileSel(event,'cat-thumb')" />
+      </div>
+      <img id="cat-thumb-pre" class="mini-pre" src="" alt="" />
+      <button class="clr-btn" id="cat-thumb-clear" onclick="clearCatField('thumbnail','cat-thumb-pre','cat-thumb-clear')">&#10005; Remove</button>
+    </div>
+    <div>
+      <div class="fl" style="margin-bottom:10px">Category Page Background</div>
+      <div class="src-tabs"><button class="src-tab on" onclick="switchCatSrc('catbg','url',this)">URL</button><button class="src-tab" onclick="switchCatSrc('catbg','file',this)">Upload</button></div>
+      <div id="catbg-url-w"><input type="url" id="cat-bg-url" class="fi" placeholder="https://..." oninput="catImgUrlPrev('catbg','cat-bg-url','cat-bg-pre','cat-bg-clear')" /></div>
+      <div id="catbg-file-w" style="display:none">
+        <div class="drop-zone" id="cat-bg-dz" onclick="document.getElementById('cat-bg-file').click()" ondragover="doDO(event,'cat-bg-dz')" ondragleave="doDL('cat-bg-dz')" ondrop="doDrop(event,'cat-bg-file','cat-bg')">
+          <div class="drop-ico">&#11014;</div><div class="drop-txt">Drop background image</div>
+        </div>
+        <input type="file" id="cat-bg-file" accept="image/*" style="display:none" onchange="fileSel(event,'cat-bg')" />
+      </div>
+      <img id="cat-bg-pre" class="mini-pre" src="" alt="" />
+      <button class="clr-btn" id="cat-bg-clear" onclick="clearCatField('bgImage','cat-bg-pre','cat-bg-clear')">&#10005; Remove</button>
+    </div>
+    <div class="m-foot"><button class="btn btn-ghost" onclick="closeModal('modal-cat-img')">Cancel</button><button class="btn btn-primary" onclick="saveCatImages()">Save Images</button></div>
+  </div>
+</div>
+
+<!-- ════  SUB-PHOTOS MODAL  ════ -->
+<div class="mask" id="modal-sub">
+  <div class="mbox wide">
+    <div class="m-title" id="sub-m-title">Sub-photos</div>
+    <input type="hidden" id="sub-photo-id" />
+    <p style="margin-bottom:18px;font-size:13px">Additional views of a design shown in the lightbox. Good for showing different angles, colours or detail shots.</p>
+    <div class="sub-grid" id="sub-grid"></div>
+    <div style="font-size:11px;font-weight:700;color:var(--dim);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.1em">Add Sub-photo</div>
+    <div class="src-tabs"><button class="src-tab on" onclick="switchSrc('url',this,'sub')">Image URL</button><button class="src-tab" onclick="switchSrc('file',this,'sub')">File Upload</button></div>
+    <div id="sub-url-w"><div class="fg"><label class="fl">Image URL</label><input type="url" id="sub-url" class="fi" placeholder="https://..." oninput="subUrlPrev()" /></div></div>
+    <div id="sub-file-w" style="display:none">
+      <div class="drop-zone" id="sub-drop" onclick="document.getElementById('sub-file-inp').click()" ondragover="doDO(event,'sub-drop')" ondragleave="doDL('sub-drop')" ondrop="doDrop(event,'sub-file-inp','sub')">
+        <div class="drop-ico">&#11014;</div><div class="drop-txt">Drop sub-photo here</div>
+      </div>
+      <input type="file" id="sub-file-inp" accept="image/*" style="display:none" onchange="fileSel(event,'sub')" />
+    </div>
+    <div class="img-pre" id="sub-pre"><img id="sub-pre-img" src="" alt="" /><div><div class="ip-name">Preview</div><div class="ip-sub" id="sub-pre-sub">—</div></div></div>
+    <div class="m-foot"><button class="btn btn-ghost" onclick="closeModal('modal-sub')">Done</button><button class="btn btn-primary" onclick="addSubPhoto()">Add Sub-photo</button></div>
+  </div>
+</div>
+
+<!-- ════  LIGHTBOX  ════ -->
+<div class="lb" id="lb" onclick="lbBgClk(event)">
+  <button class="lb-close" onclick="closeLb()">&#10005;</button>
+  <div class="lb-ctr" id="lb-ctr"></div>
+  <div class="lb-wrap">
+    <button class="lb-nav lp" id="lb-prev" onclick="lbStep(-1)">&#8249;</button>
+    <div class="lb-img-box"><img id="lb-img" src="" alt="" /></div>
+    <button class="lb-nav ln" id="lb-next" onclick="lbStep(1)">&#8250;</button>
+  </div>
+  <div class="lb-strip" id="lb-strip"></div>
+  <div class="lb-cap" id="lb-cap"></div>
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-ov">
+  <div class="spinner"></div>
+  <div class="loading-txt" id="loading-txt">Loading...</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   SUPABASE CONFIG
+   Config is stored per-device in localStorage so the
+   same HTML file works on every device after one-time setup.
+   ═══════════════════════════════════════════════════════ */
+let SUPA_URL = localStorage.getItem('pf_supa_url') || '';
+let SUPA_KEY = localStorage.getItem('pf_supa_key') || '';
+let db = null; // Supabase client
+
+function initDB() {
+  if (!SUPA_URL || !SUPA_KEY) { updateDbBadge('none'); return false; }
+  try {
+    const { createClient } = supabase;
+    db = createClient(SUPA_URL, SUPA_KEY);
+    updateDbBadge('ok');
+    return true;
+  } catch(e) {
+    updateDbBadge('err');
+    return false;
+  }
+}
+
+function updateDbBadge(state) {
+  const el = document.getElementById('db-status-badge');
+  if (!el) return;
+  const map = {
+    ok:   ['db-ok',   '&#9679; Connected'],
+    err:  ['db-err',  '&#9679; Connection error'],
+    none: ['db-none', '&#9679; Not configured']
+  };
+  el.className = 'db-badge ' + map[state][0];
+  el.innerHTML = `<span class="dot"></span> ${map[state][1]}`;
+  const urlEl = document.getElementById('db-url-display');
+  if (urlEl) urlEl.textContent = SUPA_URL ? SUPA_URL : '';
+}
+
+async function testConnection() {
+  if (!SUPA_URL || !SUPA_KEY) {
+    const urlInp = document.getElementById('setup-url');
+    const keyInp = document.getElementById('setup-key');
+    const url = urlInp?.value.trim(); const key = keyInp?.value.trim();
+    if (!url || !key) { toast('Enter URL and key first.', 'err'); return; }
+    SUPA_URL = url; SUPA_KEY = key; initDB();
+  }
+  if (!db) { toast('No database configured.', 'err'); return; }
+  showLoad('Testing connection...');
+  try {
+    const { error } = await db.from('settings').select('key').limit(1);
+    hideLoad();
+    if (error) { toast('Connection failed: ' + error.message, 'err'); updateDbBadge('err'); }
+    else { toast('Connection successful!'); updateDbBadge('ok'); }
+  } catch(e) { hideLoad(); toast('Connection failed: ' + e.message, 'err'); updateDbBadge('err'); }
+}
+
+function saveConfig() {
+  const url = document.getElementById('setup-url')?.value.trim();
+  const key = document.getElementById('setup-key')?.value.trim();
+  if (!url || !key) { toast('Both URL and key are required.', 'err'); return; }
+  if (!url.startsWith('https://')) { toast('URL must start with https://', 'err'); return; }
+  localStorage.setItem('pf_supa_url', url);
+  localStorage.setItem('pf_supa_key', key);
+  SUPA_URL = url; SUPA_KEY = key;
+  initDB();
+  closeModal('modal-setup');
+  toast('Supabase configured! Loading data...');
+  loadAll().then(() => { applyTheme(); renderHomeGrid(); renderCarousel(); updateStats(); });
+}
+
+function copySQL() {
+  const sql = document.getElementById('setup-sql').textContent;
+  navigator.clipboard.writeText(sql).then(() => toast('SQL copied to clipboard!')).catch(() => toast('Copy failed — please select and copy manually.', 'err'));
+}
+
+/* ═══════════════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════════════ */
+const DEFS = {
+  accentColor:'#ffffff', bgColor:'#0e1225', logoSrc:'', heroBgImage:'', font:'sans',
+  siteName:'THE T-SHIRT SHOP',
+  heroTitle:'THE T-SHIRT SHOP\nDESIGN CATALOGUE',
+  heroDesc:'Browse our complete collection of original T-shirt designs, organised by category for easy selection.',
+  hts:64, hds:17, sts:38, cns:20,
+  heroAlign:'left', jumpBtnVisible:true, jumpBtnText:'Browse Collections',
+  featuredTitle:'Featured Designs', adminPassword:'admin'
+};
+let cats = [], photos = [], featured = [], S = { ...DEFS };
+const pend = {}; // pending uploads {ctx: File|string}
+
+/* ═══════════════════════════════════════════════════════
+   LOADING
+   ═══════════════════════════════════════════════════════ */
+let loadCount = 0;
+function showLoad(msg) { loadCount++; document.getElementById('loading-ov').classList.add('on'); if(msg) document.getElementById('loading-txt').textContent = msg; }
+function hideLoad() { loadCount--; if (loadCount <= 0) { loadCount = 0; document.getElementById('loading-ov').classList.remove('on'); } }
+
+/* ═══════════════════════════════════════════════════════
+   DATA — LOAD
+   ═══════════════════════════════════════════════════════ */
+async function loadAll() {
+  if (!db) return;
+  showLoad('Syncing data...');
+  try {
+    const [cR, pR, fR, sR] = await Promise.all([
+      db.from('categories').select('*').order('sort_order').order('created_at'),
+      db.from('photos').select('*').order('created_at'),
+      db.from('featured').select('*').order('sort_order').order('created_at'),
+      db.from('settings').select('*').eq('key', 'global').maybeSingle()
+    ]);
+    cats = (cR.data || []).map(mapCat);
+    photos = (pR.data || []).map(mapPhoto);
+    featured = fR.data || [];
+    if (sR.data?.value) S = { ...DEFS, ...sR.data.value };
+  } catch(e) { toast('Failed to load data: ' + e.message, 'err'); }
+  hideLoad();
+}
+
+function mapCat(r) { return { id:r.id, name:r.name, thumbnail:r.thumbnail||'', bgImage:r.bg_image||'', sort_order:r.sort_order||0, createdAt:r.created_at }; }
+function mapPhoto(r) { return { id:r.id, title:r.title, src:r.src||'', subPhotos:r.sub_photos||[], categories:r.categories||[], createdAt:r.created_at }; }
+
+/* ═══════════════════════════════════════════════════════
+   STORAGE — UPLOAD
+   ═══════════════════════════════════════════════════════ */
+function ext(file) { return (file.type.split('/')[1]||'jpg').replace('jpeg','jpg').replace('svg+xml','svg'); }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
+
+async function uploadFile(file, folder) {
+  if (!db) throw new Error('Database not configured');
+  const path = `${folder}/${uid()}.${ext(file)}`;
+  const { error } = await db.storage.from('catalogue').upload(path, file, { upsert: true });
+  if (error) throw new Error(error.message);
+  return db.storage.from('catalogue').getPublicUrl(path).data.publicUrl;
+}
+
+async function resolveImg(ctx, folder) {
+  const v = pend[ctx];
+  if (!v) return null;
+  if (typeof v === 'string') return v; // URL
+  return await uploadFile(v, folder);
+}
+
+/* ═══════════════════════════════════════════════════════
+   AUTH
+   ═══════════════════════════════════════════════════════ */
+function isAuthed() { return sessionStorage.getItem('pf_auth') === 'ok'; }
+function lockDash() { sessionStorage.removeItem('pf_auth'); navigate('home'); }
+function reqDash() {
+  if (isAuthed()) { navigate('admin'); return; }
+  document.getElementById('pw-input').value = '';
+  document.getElementById('pw-err').textContent = '';
+  openModal('modal-pw');
+  setTimeout(() => document.getElementById('pw-input').focus(), 80);
+}
+function submitPw() {
+  const v = document.getElementById('pw-input').value;
+  if (v === S.adminPassword) { sessionStorage.setItem('pf_auth','ok'); closeModal('modal-pw'); navigate('admin'); }
+  else { const el = document.getElementById('pw-err'); el.textContent = 'Incorrect password.'; el.style.animation='none'; void el.offsetWidth; el.style.animation='shake 0.35s ease'; document.getElementById('pw-input').value=''; document.getElementById('pw-input').focus(); }
+}
+async function changePw() {
+  const cur = document.getElementById('s-cur-pw').value;
+  const nw  = document.getElementById('s-new-pw').value;
+  const cf  = document.getElementById('s-conf-pw').value;
+  if (cur !== S.adminPassword) { toast('Current password wrong.', 'err'); return; }
+  if (!nw || nw.length < 3) { toast('Min 3 characters.', 'err'); return; }
+  if (nw !== cf) { toast('Passwords do not match.', 'err'); return; }
+  S.adminPassword = nw;
+  await saveSettingsToDB();
+  ['s-cur-pw','s-new-pw','s-conf-pw'].forEach(id => document.getElementById(id).value = '');
+  toast('Password updated!');
+}
+
+/* ═══════════════════════════════════════════════════════
+   ROUTER
+   ═══════════════════════════════════════════════════════ */
+let activeCatId = null;
+function navigate(view, catId) {
+  if (view === 'admin' && !isAuthed()) { reqDash(); return; }
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  if (view === 'home') {
+    document.getElementById('v-home').classList.add('active');
+    loadAll().then(() => { applyTheme(); renderHomeGrid(); renderCarousel(); updateStats(); });
+    history.pushState({view},'','#/');
+  } else if (view === 'cat' && catId) {
+    activeCatId = catId;
+    document.getElementById('v-cat').classList.add('active');
+    loadAll().then(() => { applyTheme(); renderCatPage(catId); });
+    history.pushState({view,catId},'','#/cat/'+catId);
+  } else if (view === 'admin') {
+    document.getElementById('v-admin').classList.add('active');
+    switchTab('cats');
+    history.pushState({view},'','#/admin');
+  }
+  window.scrollTo({top:0,behavior:'instant'});
+}
+window.addEventListener('popstate', resolveRoute);
+function resolveRoute() {
+  const h = location.hash;
+  if (!h || h === '#/') return navigate('home');
+  if (h.startsWith('#/cat/')) return navigate('cat', h.replace('#/cat/',''));
+  if (h === '#/admin') { if(isAuthed()) navigate('admin'); else navigate('home'); return; }
+  navigate('home');
+}
+
+/* ═══════════════════════════════════════════════════════
+   THEME
+   ═══════════════════════════════════════════════════════ */
+function applyTheme() {
+  const r = document.documentElement;
+  r.style.setProperty('--acc', S.accentColor||'#fff');
+  r.style.setProperty('--bg',  S.bgColor||'#0e1225');
+  r.style.setProperty('--inv', isLight(S.accentColor||'#fff')?'#232c55':'#fff');
+  const fonts = { sans:"'Syne',sans-serif", serif:"Georgia,'Times New Roman',serif", mono:"'Courier New',Courier,monospace" };
+  r.style.setProperty('--ff', fonts[S.font||'sans']);
+  r.style.setProperty('--hts', (S.hts||64)+'px');
+  r.style.setProperty('--hds', (S.hds||17)+'px');
+  r.style.setProperty('--sts', (S.sts||38)+'px');
+  r.style.setProperty('--cns', (S.cns||20)+'px');
+  const sn = S.siteName||'THE T-SHIRT SHOP';
+  document.getElementById('topbar-name').textContent = sn;
+  document.title = sn + ' — Design Catalogue';
+  applyLogo();
+  const ht = document.getElementById('hero-title'); if(ht) ht.innerHTML = esc(S.heroTitle||'').replace(/\n/g,'<br>');
+  const hd = document.getElementById('hero-desc');  if(hd) hd.textContent = S.heroDesc||'';
+  const hs = document.getElementById('hero-sec');   if(hs) hs.classList.toggle('center', S.heroAlign==='center');
+  const jb = document.getElementById('jump-btn');   if(jb) { jb.textContent = S.jumpBtnText||'Browse Collections'; jb.style.display = S.jumpBtnVisible===false?'none':''; }
+  const ft = document.getElementById('feat-title-el'); if(ft) ft.textContent = S.featuredTitle||'Featured Designs';
+}
+
+function applyLogo() {
+  const mark = document.getElementById('logo-mark');
+  const sn   = document.getElementById('topbar-name');
+  if (S.logoSrc) {
+    mark.innerHTML = `<img src="${esc(S.logoSrc)}" alt="logo" class="logo-img-full" />`;
+    mark.style.cssText = 'background:transparent;width:auto;height:auto;';
+    sn.style.display = 'none';
+  } else {
+    mark.innerHTML = `<span>${(S.siteName||'T')[0]}</span>`;
+    mark.style.cssText = '';
+    sn.style.display = '';
+  }
+}
+
+function applyHeroBg() {
+  const bg = document.getElementById('hero-bg'); const ov = document.getElementById('hero-ov');
+  if (!bg) return;
+  if (S.heroBgImage) { bg.style.backgroundImage=`url('${S.heroBgImage}')`;bg.classList.add('has');ov.style.display='block'; }
+  else { bg.style.backgroundImage='';bg.classList.remove('has');ov.style.display='none'; }
+}
+
+function isLight(hex) {
+  const c=hex.replace('#',''); const r=parseInt(c.slice(0,2),16),g=parseInt(c.slice(2,4),16),b=parseInt(c.slice(4,6),16);
+  return (0.299*r+0.587*g+0.114*b)/255>0.55;
+}
+
+function liveAccent() { S.accentColor=document.getElementById('s-accent').value; document.getElementById('s-accent-txt').value=S.accentColor; applyTheme(); }
+function liveBg()     { S.bgColor=document.getElementById('s-bg-col').value;   document.getElementById('s-bg-txt').value=S.bgColor; applyTheme(); }
+function syncClr(id,val) { if(/^#[0-9A-Fa-f]{6}$/.test(val)){ document.getElementById(id).value=val; id==='s-accent'?liveAccent():liveBg(); } }
+function setFont(f) { S.font=f; ['sans','serif','mono'].forEach(x=>{ const b=document.getElementById('fbtn-'+x); if(b)b.className='btn btn-sm '+(x===f?'btn-primary':'btn-ghost'); }); applyTheme(); }
+function setAlign(a) { S.heroAlign=a; document.getElementById('al-left-btn').className='btn btn-sm '+(a==='left'?'btn-primary':'btn-ghost'); document.getElementById('al-center-btn').className='btn btn-sm '+(a==='center'?'btn-primary':'btn-ghost'); applyTheme(); }
+function setJump(v)  { S.jumpBtnVisible=v; document.getElementById('jb-show-btn').className='btn btn-sm '+(v?'btn-primary':'btn-ghost'); document.getElementById('jb-hide-btn').className='btn btn-sm '+(!v?'btn-primary':'btn-ghost'); applyTheme(); }
+function syncR(key, prop) { const v=+document.getElementById('r-'+key).value; document.getElementById('rv-'+key).value=v+'px'; S[key]=v; document.documentElement.style.setProperty(prop,v+'px'); }
+
+function populateSettingsForm() {
+  const s = S;
+  sv('s-accent',s.accentColor); sv('s-accent-txt',s.accentColor);
+  sv('s-bg-col',s.bgColor);     sv('s-bg-txt',s.bgColor);
+  sv('s-site-name',s.siteName); sv('s-hero-title',s.heroTitle); sv('s-hero-desc',s.heroDesc);
+  sv('s-feat-title',s.featuredTitle); sv('s-jump-txt',s.jumpBtnText||'Browse Collections');
+  svr('hts',s.hts,64); svr('hds',s.hds,17); svr('sts',s.sts,38); svr('cns',s.cns,20);
+  ['sans','serif','mono'].forEach(x=>{ const b=document.getElementById('fbtn-'+x); if(b)b.className='btn btn-sm '+(x===(s.font||'sans')?'btn-primary':'btn-ghost'); });
+  setAlign(s.heroAlign||'left'); setJump(s.jumpBtnVisible!==false);
+  if(s.logoSrc){ const p=document.getElementById('logo-pre'); if(p){p.src=s.logoSrc;p.classList.add('on');} const c=document.getElementById('logo-clear');if(c)c.classList.add('on'); sv('s-logo-url',s.logoSrc.startsWith('http')?s.logoSrc:''); }
+  if(s.heroBgImage){ const p=document.getElementById('hero-bg-pre');if(p){p.src=s.heroBgImage;p.classList.add('on');} const c=document.getElementById('hero-bg-clear');if(c)c.classList.add('on'); sv('s-hero-bg-url',s.heroBgImage.startsWith('http')?s.heroBgImage:''); }
+  sv('setup-url', SUPA_URL); sv('setup-key', SUPA_KEY);
+  updateDbBadge(db ? 'ok' : 'none');
+}
+
+function sv(id,v){ const el=document.getElementById(id); if(el) el.value=v??''; }
+function svr(key,val,def){ sv('r-'+key,val||def); sv('rv-'+key,(val||def)+'px'); }
+
+async function saveSettings() {
+  S.accentColor   = document.getElementById('s-accent').value;
+  S.bgColor       = document.getElementById('s-bg-col').value;
+  S.siteName      = document.getElementById('s-site-name').value.trim() || DEFS.siteName;
+  S.heroTitle     = document.getElementById('s-hero-title').value.trim() || DEFS.heroTitle;
+  S.heroDesc      = document.getElementById('s-hero-desc').value.trim()  || DEFS.heroDesc;
+  S.featuredTitle = document.getElementById('s-feat-title').value.trim() || DEFS.featuredTitle;
+  S.jumpBtnText   = document.getElementById('s-jump-txt').value.trim()   || 'Browse Collections';
+  // logo & hero bg handled live via upload/clear
+  await saveSettingsToDB();
+  applyTheme(); applyHeroBg();
+  toast('Settings saved!');
+}
+
+async function saveSettingsToDB() {
+  if (!db) return;
+  await db.from('settings').upsert({ key: 'global', value: S });
+}
+
+/* ═══════════════════════════════════════════════════════
+   LOGO & HERO BG
+   ═══════════════════════════════════════════════════════ */
+function logoUrlPrev() {
+  const url = document.getElementById('s-logo-url').value.trim();
+  if (url) { pend['logo']=url; S.logoSrc=url; applyLogo(); const p=document.getElementById('logo-pre'),c=document.getElementById('logo-clear'); if(p){p.src=url;p.classList.add('on');} if(c)c.classList.add('on'); }
+}
+async function clearLogo() {
+  S.logoSrc=''; await saveSettingsToDB();
+  document.getElementById('logo-pre').classList.remove('on'); document.getElementById('logo-clear').classList.remove('on'); sv('s-logo-url',''); pend['logo']=null; applyLogo(); toast('Logo removed.');
+}
+function heroBgUrlPrev() {
+  const url = document.getElementById('s-hero-bg-url').value.trim();
+  if (url) { S.heroBgImage=url; applyHeroBg(); const p=document.getElementById('hero-bg-pre'),c=document.getElementById('hero-bg-clear'); if(p){p.src=url;p.classList.add('on');} if(c)c.classList.add('on'); }
+}
+async function clearHeroBg() {
+  S.heroBgImage=''; await saveSettingsToDB();
+  document.getElementById('hero-bg-pre').classList.remove('on'); document.getElementById('hero-bg-clear').classList.remove('on'); sv('s-hero-bg-url',''); applyHeroBg(); toast('Hero background removed.');
+}
+
+/* ═══════════════════════════════════════════════════════
+   FILE HANDLING
+   ═══════════════════════════════════════════════════════ */
+function doDO(e,id){ e.preventDefault(); document.getElementById(id)?.classList.add('ov'); }
+function doDL(id){ document.getElementById(id)?.classList.remove('ov'); }
+function doDrop(e,inputId,ctx){ e.preventDefault(); e.currentTarget.classList.remove('ov'); const f=e.dataTransfer.files[0]; if(f&&f.type.startsWith('image/'))processFile(f,ctx); }
+function doDropMulti(e){ e.preventDefault(); document.getElementById('ph-drop').classList.remove('ov'); const files=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/')); if(files.length)handleMulti(files); }
+function fileSel(e,ctx){ const f=e.target.files[0]; if(f)processFile(f,ctx); e.target.value=''; }
+function filesSelected(e){ const files=[...e.target.files].filter(f=>f.type.startsWith('image/')); e.target.value=''; if(!files.length)return; if(files.length===1)processFile(files[0],'ph'); else handleMulti(files); }
+
+let batchFiles = [];
+function handleMulti(files) {
+  batchFiles = files;
+  const preview = URL.createObjectURL(files[0]);
+  showPhPrev(preview, `${files.length} file${files.length>1?'s':''} selected`);
+  document.getElementById('add-ph-btn').style.display = 'none';
+  document.getElementById('add-batch-btn').style.display = '';
+}
+
+function processFile(file, ctx) {
+  if (file.size > 10*1024*1024) { toast('File exceeds 10 MB.', 'err'); return; }
+  pend[ctx] = file;
+  const preview = URL.createObjectURL(file);
+  applyPend(ctx, preview, file.name, file.size);
+}
+
+function applyPend(ctx, preview, name, size) {
+  if (ctx === 'ph') { batchFiles=[]; document.getElementById('add-ph-btn').style.display=''; document.getElementById('add-batch-btn').style.display='none'; showPhPrev(preview, `${name} · ${Math.round(size/1024)} KB`); }
+  else if (ctx === 'feat')  { showFeatPrev(preview, name); }
+  else if (ctx === 'logo')  { S.logoSrc=preview; applyLogo(); const p=document.getElementById('logo-pre'),c=document.getElementById('logo-clear'); if(p){p.src=preview;p.classList.add('on');} if(c)c.classList.add('on'); }
+  else if (ctx === 'hero-bg') { S.heroBgImage=preview; applyHeroBg(); const p=document.getElementById('hero-bg-pre'),c=document.getElementById('hero-bg-clear'); if(p){p.src=preview;p.classList.add('on');} if(c)c.classList.add('on'); }
+  else if (ctx === 'cat-thumb') { const p=document.getElementById('cat-thumb-pre'),c=document.getElementById('cat-thumb-clear'); if(p){p.src=preview;p.classList.add('on');} if(c)c.classList.add('on'); }
+  else if (ctx === 'cat-bg')    { const p=document.getElementById('cat-bg-pre'),c=document.getElementById('cat-bg-clear');   if(p){p.src=preview;p.classList.add('on');} if(c)c.classList.add('on'); }
+  else if (ctx === 'sub')   { showSubPrev(preview, name); }
+}
+
+function switchSrc(mode, btn, pfx) {
+  const tabs = btn.closest('.src-tabs');
+  tabs.querySelectorAll('.src-tab').forEach((t,i)=>t.classList.toggle('on',(mode==='url'&&i===0)||(mode==='file'&&i===1)));
+  if (pfx) {
+    const u=document.getElementById(pfx+'-url-w'); const f=document.getElementById(pfx+'-file-w');
+    if(u) u.style.display=mode==='url'?'block':'none';
+    if(f) f.style.display=mode==='file'?'block':'none';
+  } else {
+    document.getElementById('src-url-w').style.display  = mode==='url'  ? 'block':'none';
+    document.getElementById('src-file-w').style.display = mode==='file' ? 'block':'none';
+  }
+}
+
+/* ── Previews ── */
+function urlPrev() { const url=document.getElementById('ph-url').value.trim(); if(!url){clearPhPrev();return;} pend['ph']=url; showPhPrev(url,'External URL'); }
+function showPhPrev(s,info) { document.getElementById('ph-pre-img').src=s; document.getElementById('ph-pre-sub').textContent=info; document.getElementById('ph-pre').classList.add('on'); }
+function clearPhPrev() { pend['ph']=null; sv('ph-url',''); document.getElementById('ph-pre').classList.remove('on'); }
+function featUrlPrev() { const url=document.getElementById('feat-url').value.trim(); if(url){pend['feat']=url;showFeatPrev(url,'External URL');} }
+function showFeatPrev(s,info) { document.getElementById('feat-pre-img').src=s; document.getElementById('feat-pre-sub').textContent=info; document.getElementById('feat-pre').classList.add('on'); }
+function subUrlPrev() { const url=document.getElementById('sub-url').value.trim(); if(url){pend['sub']=url;showSubPrev(url,'External URL');} }
+function showSubPrev(s,info) { document.getElementById('sub-pre-img').src=s; document.getElementById('sub-pre-sub').textContent=info; document.getElementById('sub-pre').classList.add('on'); }
+
+/* ── Category tag checkboxes ── */
+function renderCatTags() {
+  const box = document.getElementById('ph-cat-tags');
+  if (!cats.length) { box.innerHTML=`<span style="color:var(--mut);font-size:13px">No categories yet.</span>`; return; }
+  box.innerHTML = cats.map(c=>`<label class="tag-lbl" onclick="toggleTag(this)"><input type="checkbox" value="${c.id}" /><span class="tag-pip"></span>${esc(c.name)}</label>`).join('');
+}
+function toggleTag(lbl) { const cb=lbl.querySelector('input'); cb.checked=!cb.checked; lbl.classList.toggle('on',cb.checked); }
+
+/* ═══════════════════════════════════════════════════════
+   CATEGORY CRUD
+   ═══════════════════════════════════════════════════════ */
+async function createCat() {
+  if (!db) { toast('Database not configured.','err'); return; }
+  const inp = document.getElementById('new-cat-inp');
+  const name = inp.value.trim();
+  if (!name) { toast('Enter a name.','err'); return; }
+  if (cats.find(c=>c.name.toLowerCase()===name.toLowerCase())) { toast('Already exists.','err'); return; }
+  showLoad('Creating category...');
+  const id = uid();
+  const { data, error } = await db.from('categories').insert({ id, name, thumbnail:'', bg_image:'', sort_order: cats.length }).select().single();
+  hideLoad();
+  if (error) { toast('Error: '+error.message,'err'); return; }
+  cats.push(mapCat(data)); inp.value='';
+  renderCatAdminList(); renderHomeGrid(); updateStats(); renderCatTags();
+  toast(`"${name}" created!`);
+}
+
+async function deleteCat(id) {
+  const c = cats.find(x=>x.id===id); if (!c||!confirm(`Delete "${c.name}"?`)) return;
+  showLoad('Deleting...');
+  await db.from('categories').delete().eq('id',id);
+  // unlink photos
+  const toUpdate = photos.filter(p=>(p.categories||[]).includes(id));
+  for (const p of toUpdate) {
+    p.categories = p.categories.filter(cid=>cid!==id);
+    await db.from('photos').update({ categories: p.categories }).eq('id',p.id);
+  }
+  cats = cats.filter(x=>x.id!==id); photos = photos.map(p=>({...p,categories:(p.categories||[]).filter(cid=>cid!==id)}));
+  hideLoad();
+  renderCatAdminList(); renderHomeGrid(); renderPhotosTable(); updateStats(); renderCatTags();
+  toast(`"${c.name}" deleted.`);
+}
+
+function startRename(id) {
+  const item=document.querySelector(`.cat-a-item[data-id="${id}"]`); if(!item)return;
+  const nameEl=item.querySelector('.cat-a-name'); const cat=cats.find(c=>c.id===id); if(!cat)return;
+  const inp=document.createElement('input'); inp.type='text'; inp.className='rename-inline'; inp.value=cat.name;
+  nameEl.replaceWith(inp); inp.focus(); inp.select();
+  async function finish() {
+    const v=inp.value.trim();
+    if(v&&v!==cat.name){ cat.name=v; await db.from('categories').update({name:v}).eq('id',id); renderHomeGrid(); toast('Renamed!'); }
+    renderCatAdminList(); renderCatTags();
+  }
+  inp.addEventListener('blur',finish);
+  inp.addEventListener('keydown',e=>{ if(e.key==='Enter')inp.blur(); if(e.key==='Escape'){inp.value=cat.name;inp.blur();} });
+}
+
+function renderCatAdminList() {
+  const list=document.getElementById('cat-admin-list'); const badge=document.getElementById('cat-count-badge'); badge.textContent=cats.length;
+  if(!cats.length){ list.innerHTML=`<div style="text-align:center;padding:40px;color:var(--mut);font-size:13px">No categories yet.</div>`; return; }
+  list.innerHTML=cats.map(c=>{
+    const cnt=photos.filter(p=>(p.categories||[]).includes(c.id)).length;
+    const thumb=c.thumbnail?`<img src="${esc(c.thumbnail)}" alt="" />`:`<span>&#9647;</span>`;
+    return `<div class="cat-a-item" data-id="${c.id}"><div class="cat-a-row">
+      <div class="cat-a-thumb">${thumb}</div>
+      <div class="cat-a-name">${esc(c.name)}</div>
+      <span class="cat-a-pill">${cnt} design${cnt!==1?'s':''}</span>
+      <div class="cat-a-acts">
+        <button class="btn btn-ghost btn-xs" onclick="startRename('${c.id}')">&#9998;</button>
+        <button class="btn btn-ghost btn-xs" onclick="openCatImgModal('${c.id}')">&#8862; Images</button>
+        <button class="btn btn-danger btn-xs" onclick="deleteCat('${c.id}')">&#10005;</button>
+      </div>
+    </div></div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   CATEGORY IMAGES MODAL
+   ═══════════════════════════════════════════════════════ */
+function openCatImgModal(catId) {
+  const cat=cats.find(c=>c.id===catId); if(!cat)return;
+  document.getElementById('cat-img-id').value=catId;
+  document.getElementById('cat-img-title').textContent=`Images — ${cat.name}`;
+  pend['cat-thumb']=undefined; pend['cat-bg']=undefined;
+  const tp=document.getElementById('cat-thumb-pre'),tc=document.getElementById('cat-thumb-clear');
+  if(cat.thumbnail){tp.src=cat.thumbnail;tp.classList.add('on');tc.classList.add('on');}else{tp.classList.remove('on');tp.src='';tc.classList.remove('on');}
+  sv('cat-thumb-url',cat.thumbnail?.startsWith('http')?cat.thumbnail:'');
+  const bp=document.getElementById('cat-bg-pre'),bc=document.getElementById('cat-bg-clear');
+  if(cat.bgImage){bp.src=cat.bgImage;bp.classList.add('on');bc.classList.add('on');}else{bp.classList.remove('on');bp.src='';bc.classList.remove('on');}
+  sv('cat-bg-url',cat.bgImage?.startsWith('http')?cat.bgImage:'');
+  openModal('modal-cat-img');
+}
+function switchCatSrc(type,mode,btn){ const tabs=btn.closest('.src-tabs');tabs.querySelectorAll('.src-tab').forEach((t,i)=>t.classList.toggle('on',(mode==='url'&&i===0)||(mode==='file'&&i===1)));if(type==='thumb'){document.getElementById('cthumb-url-w').style.display=mode==='url'?'block':'none';document.getElementById('cthumb-file-w').style.display=mode==='file'?'block':'none';}else{document.getElementById('catbg-url-w').style.display=mode==='url'?'block':'none';document.getElementById('catbg-file-w').style.display=mode==='file'?'block':'none';}}
+function catImgUrlPrev(type,inputId,preId,clearId){ const url=document.getElementById(inputId).value.trim(); const p=document.getElementById(preId); const c=document.getElementById(clearId); const ctx=type==='thumb'?'cat-thumb':'cat-bg'; if(url){pend[ctx]=url;p.src=url;p.classList.add('on');c.classList.add('on');}else{pend[ctx]=undefined;p.classList.remove('on');c.classList.remove('on');} }
+async function clearCatField(field,preId,clearId){ const catId=document.getElementById('cat-img-id').value; const cat=cats.find(c=>c.id===catId); if(!cat)return; cat[field]=''; const dbField=field==='bgImage'?'bg_image':field; await db.from('categories').update({[dbField]:''}).eq('id',catId); document.getElementById(preId).classList.remove('on'); document.getElementById(clearId).classList.remove('on'); if(field==='thumbnail'){sv('cat-thumb-url','');pend['cat-thumb']=undefined;}else{sv('cat-bg-url','');pend['cat-bg']=undefined;} renderCatAdminList(); toast('Image removed.'); }
+async function saveCatImages() {
+  const catId=document.getElementById('cat-img-id').value; const cat=cats.find(c=>c.id===catId); if(!cat)return;
+  if (!db) { toast('Database not configured.','err'); return; }
+  showLoad('Uploading images...');
+  try {
+    const thumbSrc = pend['cat-thumb']!==undefined ? await resolveImg('cat-thumb','categories') : cat.thumbnail;
+    const bgSrc    = pend['cat-bg']   !==undefined ? await resolveImg('cat-bg',   'categories') : cat.bgImage;
+    if (thumbSrc!==undefined) cat.thumbnail = thumbSrc || '';
+    if (bgSrc   !==undefined) cat.bgImage   = bgSrc    || '';
+    await db.from('categories').update({ thumbnail: cat.thumbnail, bg_image: cat.bgImage }).eq('id', catId);
+  } catch(e) { hideLoad(); toast('Upload failed: '+e.message,'err'); return; }
+  hideLoad();
+  closeModal('modal-cat-img'); renderCatAdminList(); renderHomeGrid();
+  toast('Category images saved!');
+}
+
+/* ═══════════════════════════════════════════════════════
+   PHOTO MANAGEMENT
+   ═══════════════════════════════════════════════════════ */
+async function addPhoto() {
+  if (!db) { toast('Database not configured.','err'); return; }
+  const srcVal = pend['ph']; if(!srcVal){toast('Provide an image first.','err');return;}
+  const title  = document.getElementById('ph-title').value.trim() || 'Untitled Design';
+  const catIds = [...document.querySelectorAll('#ph-cat-tags input:checked')].map(c=>c.value);
+  showLoad('Uploading photo...');
+  try {
+    const src = await resolveImg('ph','photos');
+    const { data, error } = await db.from('photos').insert({ id:uid(), title, src, sub_photos:[], categories:catIds }).select().single();
+    if (error) throw new Error(error.message);
+    photos.push(mapPhoto(data));
+  } catch(e) { hideLoad(); toast('Upload failed: '+e.message,'err'); return; }
+  hideLoad();
+  clearPhPrev(); pend['ph']=null;
+  sv('ph-title','');
+  document.querySelectorAll('#ph-cat-tags .tag-lbl').forEach(l=>{ l.classList.remove('on'); l.querySelector('input').checked=false; });
+  renderPhotosTable(); updateStats(); toast('Design added!');
+}
+
+async function addBatch() {
+  if (!db || !batchFiles.length) return;
+  const prefix = document.getElementById('ph-title').value.trim();
+  const catIds = [...document.querySelectorAll('#ph-cat-tags input:checked')].map(c=>c.value);
+  const total  = batchFiles.length;
+  document.getElementById('ph-batch-info').style.display = 'block';
+  const prog = document.getElementById('ph-prog');
+  for (let i = 0; i < total; i++) {
+    const file  = batchFiles[i];
+    const title = prefix ? `${prefix} ${i+1}` : file.name.replace(/\.[^.]+$/,'');
+    document.getElementById('ph-batch-txt').textContent = `Uploading ${i+1} of ${total}: ${file.name}`;
+    prog.style.width = Math.round((i/total)*100)+'%';
+    try {
+      const src = await uploadFile(file, 'photos');
+      const { data, error } = await db.from('photos').insert({ id:uid(), title, src, sub_photos:[], categories:catIds }).select().single();
+      if (!error) photos.push(mapPhoto(data));
+    } catch(e) { toast(`${file.name}: ${e.message}`, 'err'); }
+  }
+  prog.style.width='100%';
+  document.getElementById('ph-batch-txt').textContent=`${total} file${total>1?'s':''} uploaded!`;
+  setTimeout(()=>{ document.getElementById('ph-batch-info').style.display='none'; },2000);
+  batchFiles=[];
+  document.getElementById('add-ph-btn').style.display=''; document.getElementById('add-batch-btn').style.display='none';
+  sv('ph-title','');
+  document.querySelectorAll('#ph-cat-tags .tag-lbl').forEach(l=>{ l.classList.remove('on'); l.querySelector('input').checked=false; });
+  clearPhPrev(); renderPhotosTable(); updateStats();
+  toast(`${total} design${total>1?'s':''} added!`);
+}
+
+async function deletePhoto(id) {
+  const p=photos.find(x=>x.id===id); if(!p||!confirm(`Remove "${p.title}"?`))return;
+  showLoad('Removing...');
+  await db.from('photos').delete().eq('id',id);
+  photos=photos.filter(x=>x.id!==id);
+  hideLoad(); renderPhotosTable(); updateStats(); toast('Design removed.');
+}
+
+function renderPhotosTable() {
+  const tbody=document.getElementById('photos-tbody'); const badge=document.getElementById('photo-count-badge'); badge.textContent=photos.length;
+  if(!photos.length){ tbody.innerHTML=`<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--mut)">No designs yet.</td></tr>`; return; }
+  tbody.innerHTML=photos.slice().reverse().map(p=>{
+    const catBadges=(p.categories||[]).map(cid=>{const c=cats.find(x=>x.id===cid);return c?`<span class="badge badge-o">${esc(c.name)}</span>`:''}).join('');
+    const thumb=p.src?`<img class="dt-thumb" src="${esc(p.src)}" alt="${esc(p.title)}" onerror="this.style.opacity='.05'" />`:`<div class="dt-no-thumb">&#9647;</div>`;
+    const sc=(p.subPhotos||[]).length;
+    return `<tr><td>${thumb}</td><td style="color:#fff;font-weight:700">${esc(p.title)}</td><td><button class="btn btn-ghost btn-xs" onclick="openSubModal('${p.id}')">&#8862; ${sc} sub</button></td><td>${catBadges||'<span style="color:var(--mut);font-size:11px">Unassigned</span>'}</td><td><button class="btn btn-danger btn-xs" onclick="deletePhoto('${p.id}')">&#10005;</button></td></tr>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   SUB-PHOTOS
+   ═══════════════════════════════════════════════════════ */
+function openSubModal(photoId) {
+  const p=photos.find(x=>x.id===photoId); if(!p)return;
+  document.getElementById('sub-photo-id').value=photoId;
+  document.getElementById('sub-m-title').textContent=`Sub-photos — ${p.title}`;
+  pend['sub']=null; sv('sub-url',''); document.getElementById('sub-pre').classList.remove('on');
+  renderSubGrid(photoId); openModal('modal-sub');
+}
+function renderSubGrid(photoId) {
+  const p=photos.find(x=>x.id===photoId); if(!p)return;
+  const grid=document.getElementById('sub-grid');
+  if(!(p.subPhotos||[]).length){ grid.innerHTML=`<div style="color:var(--mut);font-size:13px;grid-column:1/-1;padding:16px 0">No sub-photos yet.</div>`; return; }
+  grid.innerHTML=(p.subPhotos||[]).map((sp,i)=>`<div class="sub-item"><img src="${esc(sp.src)}" alt="" /><button class="sub-del" onclick="delSubPhoto('${photoId}',${i})">&#10005;</button></div>`).join('');
+}
+async function addSubPhoto() {
+  const photoId=document.getElementById('sub-photo-id').value;
+  const srcVal=pend['sub']||document.getElementById('sub-url').value.trim();
+  if(!srcVal){toast('Provide an image first.','err');return;}
+  const p=photos.find(x=>x.id===photoId); if(!p)return;
+  showLoad('Uploading...');
+  try {
+    const src = typeof srcVal==='string' ? srcVal : await uploadFile(srcVal,'photos');
+    if(!p.subPhotos)p.subPhotos=[];
+    p.subPhotos.push({id:uid(),src});
+    await db.from('photos').update({sub_photos:p.subPhotos}).eq('id',photoId);
+  } catch(e){ hideLoad(); toast('Upload failed: '+e.message,'err'); return; }
+  hideLoad(); pend['sub']=null; sv('sub-url',''); document.getElementById('sub-pre').classList.remove('on');
+  renderSubGrid(photoId); renderPhotosTable(); toast('Sub-photo added!');
+}
+async function delSubPhoto(photoId,idx) {
+  const p=photos.find(x=>x.id===photoId); if(!p)return;
+  p.subPhotos.splice(idx,1);
+  await db.from('photos').update({sub_photos:p.subPhotos}).eq('id',photoId);
+  renderSubGrid(photoId); renderPhotosTable(); toast('Sub-photo removed.');
+}
+
+/* ═══════════════════════════════════════════════════════
+   FEATURED / CAROUSEL
+   ═══════════════════════════════════════════════════════ */
+let cIdx=0, cTimer=null;
+
+async function addFeatured() {
+  if (!db) { toast('Database not configured.','err'); return; }
+  const srcVal=pend['feat']||document.getElementById('feat-url').value.trim();
+  if(!srcVal){toast('Provide an image first.','err');return;}
+  const caption=document.getElementById('feat-cap').value.trim();
+  showLoad('Uploading...');
+  try {
+    const src = typeof srcVal==='string' ? srcVal : await uploadFile(srcVal,'featured');
+    const { data, error } = await db.from('featured').insert({ id:uid(), src, caption, sort_order:featured.length }).select().single();
+    if(error) throw new Error(error.message);
+    featured.push(data);
+  } catch(e){ hideLoad(); toast('Upload failed: '+e.message,'err'); return; }
+  hideLoad(); pend['feat']=null; sv('feat-url',''); sv('feat-cap',''); document.getElementById('feat-pre').classList.remove('on');
+  renderFeatList(); renderCarousel(); toast('Featured photo added!');
+}
+
+async function deleteFeatured(id) {
+  await db.from('featured').delete().eq('id',id);
+  featured=featured.filter(x=>x.id!==id); renderFeatList(); renderCarousel(); toast('Removed from featured.');
+}
+async function moveFeatured(id,dir) {
+  const idx=featured.findIndex(x=>x.id===id); if(idx<0)return;
+  const to=idx+dir; if(to<0||to>=featured.length)return;
+  [featured[idx],featured[to]]=[featured[to],featured[idx]];
+  // update sort_order
+  for (let i=0;i<featured.length;i++) { featured[i].sort_order=i; await db.from('featured').update({sort_order:i}).eq('id',featured[i].id); }
+  renderFeatList(); renderCarousel();
+}
+
+function renderFeatList() {
+  const list=document.getElementById('feat-list'); const badge=document.getElementById('feat-count-badge'); badge.textContent=featured.length;
+  if(!featured.length){ list.innerHTML=`<div style="text-align:center;padding:40px;color:var(--mut);font-size:13px">No featured photos yet.</div>`; return; }
+  list.innerHTML=featured.map((f,i)=>`<div class="feat-item">${f.src?`<img class="feat-thumb" src="${esc(f.src)}" alt="" />`:`<div class="feat-no-thumb">&#9647;</div>`}<div class="feat-name">${esc(f.caption||'(no caption)')}</div><div class="feat-reorder"><button onclick="moveFeatured('${f.id}',-1)" ${i===0?'disabled':''}>&#9650;</button><button onclick="moveFeatured('${f.id}',1)" ${i===featured.length-1?'disabled':''}>&#9660;</button></div><button class="btn btn-danger btn-xs" onclick="deleteFeatured('${f.id}')">&#10005;</button></div>`).join('');
+}
+
+function renderCarousel() {
+  const sec=document.getElementById('feat-section');
+  if(!featured.length){ sec.style.display='none'; return; }
+  sec.style.display='';
+  document.getElementById('c-track').innerHTML=featured.map((f,i)=>`<div class="c-slide" onclick="openLb(${i},'carousel')"><div class="c-img"><img src="${esc(f.src)}" alt="${esc(f.caption||'')}" loading="lazy" onerror="this.style.opacity='.05'" /></div>${f.caption?`<div class="c-cap">${esc(f.caption)}</div>`:''}</div>`).join('');
+  document.getElementById('c-dots').innerHTML=featured.map((_,i)=>`<button class="c-dot${i===0?' on':''}" onclick="cGoTo(${i})"></button>`).join('');
+  cIdx=0; cApply(); startCTimer();
+}
+function cApply() { const t=document.getElementById('c-track'); if(t)t.style.transform=`translateX(-${cIdx*100}%)`; document.querySelectorAll('.c-dot').forEach((d,i)=>d.classList.toggle('on',i===cIdx)); const pr=document.getElementById('c-prev'),nx=document.getElementById('c-next'); if(pr)pr.style.opacity=cIdx===0?'0.35':'1'; if(nx)nx.style.opacity=cIdx===featured.length-1?'0.35':'1'; }
+function cStep(d) { cIdx=(cIdx+d+featured.length)%featured.length; cApply(); resetCTimer(); }
+function cGoTo(i) { cIdx=i; cApply(); resetCTimer(); }
+function startCTimer() { clearInterval(cTimer); if(featured.length>1)cTimer=setInterval(()=>{cIdx=(cIdx+1)%featured.length;cApply();},5000); }
+function resetCTimer() { clearInterval(cTimer); startCTimer(); }
+
+/* ═══════════════════════════════════════════════════════
+   HOME
+   ═══════════════════════════════════════════════════════ */
+function renderHomeGrid() {
+  const grid=document.getElementById('home-grid');
+  if(!cats.length){ grid.innerHTML=`<div class="empty-state"><div class="e-ico">&#9647;</div><h3>No Collections Yet</h3><p>Login to the dashboard to create your first category.</p></div>`; return; }
+  grid.innerHTML=cats.map(c=>{
+    const cnt=photos.filter(p=>(p.categories||[]).includes(c.id)).length;
+    const ht=!!c.thumbnail;
+    return `<div class="cat-card${ht?' ht':''}" onclick="navigate('cat','${c.id}')"><div class="cat-thumb-bg"${ht?` style="background-image:url('${esc(c.thumbnail)}')"`:''} ></div>${ht?'<div class="cat-thumb-ov"></div>':''}<div class="cat-body"><div class="cat-count">${cnt} Design${cnt!==1?'s':''}</div><div class="cat-name">${esc(c.name)}</div><div class="cat-footer"><div class="cat-link">View Collection <span class="c-arrow">&#8594;</span></div></div></div></div>`;
+  }).join('');
+  applyHeroBg();
+}
+function updateStats() { document.getElementById('s-cats').textContent=cats.length; document.getElementById('s-photos').textContent=photos.length; }
+function scrollToCats() { document.getElementById('cats-anchor')?.scrollIntoView({behavior:'smooth'}); }
+
+/* ═══════════════════════════════════════════════════════
+   CATEGORY PAGE
+   ═══════════════════════════════════════════════════════ */
+function renderCatPage(catId) {
+  const cat=cats.find(c=>c.id===catId); if(!cat){navigate('home');return;}
+  document.getElementById('cat-bc').textContent=cat.name;
+  document.getElementById('cpg-title').textContent=cat.name;
+  const pgBg=document.getElementById('cpg-bg'),pgOv=document.getElementById('cpg-ov');
+  if(cat.bgImage){pgBg.style.backgroundImage=`url('${cat.bgImage}')`;pgOv.style.display='block';}
+  else{pgBg.style.backgroundImage='';pgOv.style.display='none';}
+  const catPhotos=photos.filter(p=>(p.categories||[]).includes(catId));
+  document.getElementById('cpg-meta').textContent=`${catPhotos.length} design${catPhotos.length!==1?'s':''}`;
+  const grid=document.getElementById('cat-grid');
+  if(!catPhotos.length){ grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="e-ico">&#9647;</div><h3>No Designs Yet</h3><p>Add designs from the dashboard.</p></div>`; return; }
+  grid.innerHTML=catPhotos.map(p=>{const sc=(p.subPhotos||[]).length;return`<div class="photo-card" onclick="openLb('${p.id}','photo')"><img src="${esc(p.src)}" alt="${esc(p.title)}" loading="lazy" onerror="this.style.opacity='.05'" /><div class="pc-label">${esc(p.title)}</div>${sc>0?`<div class="sub-badge">+${sc} view${sc>1?'s':''}</div>`:''}</div>`;}).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   LIGHTBOX
+   ═══════════════════════════════════════════════════════ */
+let lbImgs=[],lbIdx=0;
+function openLb(idOrIdx,ctx) {
+  if(ctx==='photo'){const p=photos.find(x=>x.id===idOrIdx);if(!p)return;lbImgs=[{src:p.src,label:p.title},...(p.subPhotos||[]).map((sp,i)=>({src:sp.src,label:`${p.title} — view ${i+2}`}))];lbIdx=0;}
+  else if(ctx==='carousel'){lbImgs=featured.map(f=>({src:f.src,label:f.caption||''}));lbIdx=idOrIdx;}
+  lbRender(); document.getElementById('lb').classList.add('on');
+}
+function lbRender() {
+  const im=lbImgs[lbIdx]; document.getElementById('lb-img').src=im.src; document.getElementById('lb-cap').textContent=im.label||'';
+  const multi=lbImgs.length>1; document.getElementById('lb-ctr').textContent=multi?`${lbIdx+1} / ${lbImgs.length}`:'';
+  document.getElementById('lb-prev').classList.toggle('hid',!multi); document.getElementById('lb-next').classList.toggle('hid',!multi);
+  const strip=document.getElementById('lb-strip');
+  if(multi){strip.innerHTML=lbImgs.map((im,i)=>`<div class="lb-si${i===lbIdx?' on':''}" onclick="lbGoTo(${i})"><img src="${esc(im.src)}" alt="" /></div>`).join('');strip.classList.add('on');}
+  else{strip.classList.remove('on');}
+}
+function lbStep(d){lbIdx=(lbIdx+d+lbImgs.length)%lbImgs.length;lbRender();}
+function lbGoTo(i){lbIdx=i;lbRender();}
+function lbBgClk(e){if(e.target===document.getElementById('lb'))closeLb();}
+function closeLb(){document.getElementById('lb').classList.remove('on');document.getElementById('lb-img').src='';}
+document.addEventListener('keydown',e=>{const lb=document.getElementById('lb');if(lb.classList.contains('on')){if(e.key==='ArrowRight')lbStep(1);else if(e.key==='ArrowLeft')lbStep(-1);else if(e.key==='Escape')closeLb();return;}if(e.key==='Escape')document.querySelectorAll('.mask.on').forEach(m=>m.classList.remove('on'));});
+
+/* ═══════════════════════════════════════════════════════
+   ADMIN TABS
+   ═══════════════════════════════════════════════════════ */
+function switchTab(tab) {
+  document.querySelectorAll('.a-tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.sb-item[data-tab]').forEach(s=>s.classList.remove('on'));
+  document.getElementById('tab-'+tab).classList.add('on');
+  document.querySelector(`.sb-item[data-tab="${tab}"]`).classList.add('on');
+  if(tab==='photos')    { renderCatTags(); renderPhotosTable(); }
+  if(tab==='settings')  { populateSettingsForm(); }
+  if(tab==='cats')      { renderCatAdminList(); }
+  if(tab==='featured')  { renderFeatList(); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MODALS
+   ═══════════════════════════════════════════════════════ */
+function openModal(id)  { document.getElementById(id).classList.add('on'); }
+function closeModal(id) { document.getElementById(id).classList.remove('on'); }
+['modal-pw','modal-setup','modal-cat-img','modal-sub'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('click',function(e){if(e.target===this)closeModal(id);});
+});
+
+/* ═══════════════════════════════════════════════════════
+   DANGER
+   ═══════════════════════════════════════════════════════ */
+async function nukeAll() {
+  if (!confirm('Delete ALL data from the database permanently?')) return;
+  if (!confirm('Final confirmation — this cannot be undone.')) return;
+  if (!db) { toast('Database not configured.','err'); return; }
+  showLoad('Deleting all data...');
+  await Promise.all([
+    db.from('categories').delete().neq('id',''),
+    db.from('photos').delete().neq('id',''),
+    db.from('featured').delete().neq('id',''),
+    db.from('settings').delete().neq('key','')
+  ]);
+  cats=[]; photos=[]; featured=[]; S={...DEFS};
+  hideLoad(); sessionStorage.removeItem('pf_auth'); navigate('home'); toast('All data cleared.');
+}
+
+/* ═══════════════════════════════════════════════════════
+   TOAST
+   ═══════════════════════════════════════════════════════ */
+let toastTmr;
+function toast(msg,type){ const el=document.getElementById('toast'); el.textContent=(type==='err'?'⚠ ':'✓ ')+msg; el.className='toast on'+(type==='err'?' err':''); clearTimeout(toastTmr); toastTmr=setTimeout(()=>el.classList.remove('on'),3400); }
+
+/* ═══════════════════════════════════════════════════════
+   UTILS
+   ═══════════════════════════════════════════════════════ */
+function esc(s){ if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+/* ═══════════════════════════════════════════════════════
+   BOOT
+   ═══════════════════════════════════════════════════════ */
+(async function init() {
+  const ok = initDB();
+  if (ok) {
+    await loadAll();
+  }
+  applyTheme();
+  resolveRoute();
+  // Show setup prompt on first launch if not configured
+  if (!ok && !SUPA_URL) {
+    setTimeout(() => openModal('modal-setup'), 800);
+  }
+})();
+</script>
+</body>
+</html>
